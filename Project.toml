@@ -3,6 +3,11 @@ uuid = "7af7f183-cd03-4039-bf6b-67ea3eb1648d"
 authors = ["Alexis Renchon et al."]
 version = "0.1.0"
 
+[deps]
+AbstractPlotting = "537997a7-5e4e-5d89-9595-2241ea00577e"
+Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
+UnicodeFun = "1cfade01-22cf-5700-b092-accc4b62d6e1"
+
 [compat]
 julia = "1.6"
 
