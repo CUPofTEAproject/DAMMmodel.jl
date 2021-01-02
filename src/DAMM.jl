@@ -1,14 +1,32 @@
-# test
-# Dual-Arrhenius and Michaelis-Menten model, Davidson et al., 2012
-# Mechanistic model of heterotrophic soil respiration as a function of soil temperature (Tsoil, C)  and soil moisture (Msoil, m3 m-3)
-# For description and dimension of parameters, see DAMM_param.jl
-function DAMM(Tsoil::Float64, Msoil::Float64; kMSx::Float64=1e-8, AlphaSx::Float64=1e8, kMO2::Float64=1e-3, EaSx::Float64=62.0, Sxtot::Float64=0.0125)::Float64 
-	Sx = Sxtot * psx * Dliq * Msoil^3
-	O2 = Dgas * O2airfrac * ((porosity - Msoil)^(4/3))
-	MMSx = Sx / (kMSx + Sx)
-	MMO2 = O2 / (kMO2 + O2)
-	VmaxSx = (AlphaSx * exp(-EaSx/(R * (273.15 + Tsoil))))
-	Resp = VmaxSx * MMSx * MMO2 # in mgC g-1 hr-1
-	areaCflux = 10000 * Soildepth * Resp # in mgC m-2 hr-1
-	Rsoil = areaCflux / 1000 / 12 * 1e6 / 60 / 60 # in umol CO2 m-2 s-1
+function DAMM(x, p) # x are indepedent variables, p are parameters
+     # Fixed param, default values
+	R = 8.314472e-3 # Universal gas constant, kJ K-1 mol-1
+	O2ₐ = 0.209 # volume of O2 in the air, L L-1
+	BD = 1.5396 # Soil bulk density, g cm-3  
+	PD = 2.52 # Soil particle density, g cm-3
+	porosity = 1-BD/PD # total porosity 
+	pₛₓ = 2.4e-2 # Fraction of soil C that is considered soluble
+	Dₗᵢ = 3.17 # Diffusion coeff of substrate in liquid phase, dimensionless
+	Dₒₐ = 1.67 # Diffusion coefficient of oxygen in air, dimensionless
+	Sxₜₒₜ = 0.0125 #
+     # Ind. and parameters to fit
+	Tₛ = x[:, 1]
+	θ = x[:, 2]
+	Eaₛₓ = p[1]
+	αₛₓ = p[2]
+	kMₒ₂ = p[3]
+	kMₛₓ = p[4]
+     # DAMM model
+	Sₓ = @. Sxₜₒₜ * Dₗᵢ * θ^3
+	O2 = @. Dₒₐ * O2ₐ * ((porosity - θ)^(4/3))
+	MMₛₓ = @. Sₓ / (kMₛₓ + Sₓ)
+	MMₒ₂ = @. O2 / (kMₒ₂ + O2)
+	Vmaxₛₓ = @. (αₛₓ * exp(-Eaₛₓ/(R * (273.15 + Tₛ))))
+	Resp = @. Vmaxₛₓ * MMₛₓ * MMₒ₂ * 2314.8148 # 2314 to convert mgC hr-1 to umol s-1
 end
+
+# test
+x = [18.0 0.3; 22 0.22]
+p = [62.0, 1e8, 2.0e-3, 3.46e-8]
+DAMM(x, p)
+
