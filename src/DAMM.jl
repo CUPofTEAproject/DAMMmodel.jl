@@ -1,4 +1,5 @@
-fp =   (R = 8.314472e-3, # Universal gas constant, kJ K-1 mol-1
+defaultfp =    
+       (R = 8.314472e-3, # Universal gas constant, kJ K-1 mol-1
 	O2ₐ = 0.209, # volume of O2 in the air, L L-1
 	BD = 1.5396, # Soil bulk density, g cm-3  
 	PD = 2.52, # Soil particle density, g cm-3
@@ -7,7 +8,7 @@ fp =   (R = 8.314472e-3, # Universal gas constant, kJ K-1 mol-1
 	Dₒₐ = 1.67, # Diffusion coefficient of oxygen in air, dimensionless
 	Sxₜₒₜ = 0.0125)
 
-function DAMM(x, p, fp)
+function DAMM(x, p; fp = defaultfp)
 	porosity = 1-fp.BD/fp.PD # total porosity
      # Independent variables
 	Tₛ = x[:, 1]
@@ -29,5 +30,5 @@ end
 # test
 x = [18.0 0.3; 22.0 0.22]
 p = [62.0, 1e8, 2.0e-3, 3.46e-8]
-DAMM(x, p, fp)
+DAMM(x, p)
 
