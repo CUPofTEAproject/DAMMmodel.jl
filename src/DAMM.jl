@@ -12,17 +12,17 @@ function DAMM(x, p)
 	Tₛ = x[:, 1] # Soil temperature, °C
 	θ = x[:, 2] # Soil moisture, m³ m⁻³
      # Parameters 
-	Eaₛₓ = p[1] # Activation energy, kJ mol⁻¹
-	αₛₓ = p[2] # Pre-exponential factor, mgC cm⁻³ h⁻¹
-	kMₒ₂ = p[3] # Michaelis constant for O₂, L L⁻¹
-	kMₛₓ = p[4] # Michaelis constant, gC cm⁻³
+	αₛₓ = p[1] # Pre-exponential factor, mgC cm⁻³ h⁻¹
+     	Eaₛₓ = p[2] # Activation energy, kJ mol⁻¹
+	kMₛₓ = p[3] # Michaelis constant, gC cm⁻³
+    	kMₒ₂ = p[4] # Michaelis constant for O₂, L L⁻¹
 	porosity = p[5] # 1 - soil buld density / soil particle density
 	Sxₜₒₜ = p[6] # Total soil carbon, gC cm⁻³
      # DAMM model
-	Vmaxₛₓ = @. (αₛₓ * exp(-Eaₛₓ/(R * (CtoK + Tₛ))))
-     	Sₓ = @. pₛₓ * Sxₜₒₜ * Dₗᵢ * θ^3
-	MMₛₓ = @. Sₓ / (kMₛₓ + Sₓ)
-	O₂ = @. Dₒₐ * O₂ₐ * ((porosity - θ)^(4/3))
-	MMₒ₂ = @. O₂ / (kMₒ₂ + O₂)
-	Resp = @. Vmaxₛₓ * MMₛₓ * MMₒ₂ * conv 
+	Vmax = @. (αₛₓ * exp(-Eaₛₓ/(R * (CtoK + Tₛ)))) # Maximum potential rate of respiration
+     	Sₓ = @. pₛₓ * Sxₜₒₜ * Dₗᵢ * θ^3 # All soluble substrate, gC cm⁻³
+	MMₛₓ = @. Sₓ / (kMₛₓ + Sₓ) # Availability of substrate factor, 0-1 
+	O₂ = @. Dₒₐ * O₂ₐ * ((porosity - θ)^(4/3)) # Oxygen concentration
+	MMₒ₂ = @. O₂ / (kMₒ₂ + O₂) # Oxygen limitation factor, 0-1
+	Resp = @. Vmax * MMₛₓ * MMₒ₂ * conv # Respiration, μmol CO₂ m⁻² s⁻¹
 end
