@@ -1,9 +1,23 @@
 function DAMM_Makie()
-	x_range = [collect(range(1, length=35, stop=35)) collect(range(0.01, length=35, stop = 0.35))]
-	x = Int.(x_range[:, 1])
-	y_ax = x_range[:,2]
-	y = Int.(floor.(x_range[:, 2]*100))
+	L = 40
+	
+	# to improve later, use: 
+	# y=repeat(collect(1:10), outer=[10])
+	# x=repeat(collect(1:10), inner=[10])
+	
+	x = collect(range(1, length=L, stop=1))
+	[append!(x, collect(range(i, length=L, stop=i))) for i = 2:40]
+	x = reduce(vcat,x)
+	y = collect(range(0.01, length=L, stop=0.40))
+	y = repeat(y, outer=L)
+	x_range = hcat(x, y)
 
+	x = Int.(x_range[:, 1])
+	y_ax = collect(range(0.01, length=L, stop=0.40))
+	y = collect(range(1, length=L, stop=L))
+	y = repeat(y, outer=L)
+	y = Int.(y)
+	x_ax = collect(range(1, length=L, stop=L))
 	
 	scene, layout = layoutscene(resolution = (1000, 700));
 	texts = Array{LText}(undef,5);
@@ -28,9 +42,9 @@ function DAMM_Makie()
 
 	scene3D = layout[1, 2] = LScene(scene, scenekw = (camera = cam3d!, raw = false, show_axis = true));
 
-	surface!(scene3D, x, y_ax, lift((kMSx, AlphaSx, kMO2, EaSx, Sxtot)->Matrix(sparse(x, y, DAMM(x_range, [AlphaSx, EaSx, kMSx, kMO2, 0.4, Sxtot]))), sliders[1].value, sliders[2].value, sliders[3].value, sliders[4].value, sliders[5].value), colormap = :BuGn, transparency = true, alpha = 0.2, shading = false); #, limits = Rect(10, 0, 0, 25, 0.4, 20));
+	surface!(scene3D, x_ax, y_ax, lift((kMSx, AlphaSx, kMO2, EaSx, Sxtot)->Matrix(sparse(x, y, DAMM(x_range, [AlphaSx, EaSx, kMSx, kMO2, 0.4, Sxtot]))), sliders[1].value, sliders[2].value, sliders[3].value, sliders[4].value, sliders[5].value), colormap = :BuGn, transparency = true, alpha = 0.2, shading = false, limits = Rect(10, 0, 0, 25, 0.4, 20));
 
-	wireframe!(scene3D, x, y_ax, lift((kMSx, AlphaSx, kMO2, EaSx, Sxtot)->Matrix(sparse(x, y, DAMM(x_range, [AlphaSx, EaSx, kMSx, kMO2, 0.4, Sxtot]))), sliders[1].value, sliders[2].value, sliders[3].value, sliders[4].value, sliders[5].value), overdraw = true, transparency = true, color = (:black, 0.05));
+	wireframe!(scene3D, x_ax, y_ax, lift((kMSx, AlphaSx, kMO2, EaSx, Sxtot)->Matrix(sparse(x, y, DAMM(x_range, [AlphaSx, EaSx, kMSx, kMO2, 0.4, Sxtot]))), sliders[1].value, sliders[2].value, sliders[3].value, sliders[4].value, sliders[5].value), overdraw = true, transparency = true, color = (:black, 0.05));
 
 	scale!(scene3D.scene, 1.3, 75, 1.8);
 	center!(scene3D.scene);
