@@ -42,7 +42,7 @@ function DAMM_Makie()
 
 	scene3D = layout[1, 2] = LScene(scene, scenekw = (camera = cam3d!, raw = false, show_axis = true));
 
-	surface!(scene3D, x_ax, y_ax, lift((kMSx, AlphaSx, kMO2, EaSx, Sxtot)->Matrix(sparse(x, y, DAMM(x_range, [AlphaSx, EaSx, kMSx, kMO2, 0.4, Sxtot]))), sliders[1].value, sliders[2].value, sliders[3].value, sliders[4].value, sliders[5].value), colormap = :BuGn, transparency = true, alpha = 0.2, shading = false, limits = Rect(10, 0, 0, 25, 0.4, 20));
+	surface!(scene3D, x_ax, y_ax, lift((kMSx, AlphaSx, kMO2, EaSx, Sxtot)->Matrix(sparse(x, y, DAMM(x_range, [AlphaSx, EaSx, kMSx, kMO2, 0.4, Sxtot]))), sliders[1].value, sliders[2].value, sliders[3].value, sliders[4].value, sliders[5].value), colormap = Reverse(:Spectral), transparency = true, alpha = 0.2, shading = false, limits = Rect(10, 0, 0, 25, 0.4, 20));
 
 	wireframe!(scene3D, x_ax, y_ax, lift((kMSx, AlphaSx, kMO2, EaSx, Sxtot)->Matrix(sparse(x, y, DAMM(x_range, [AlphaSx, EaSx, kMSx, kMO2, 0.4, Sxtot]))), sliders[1].value, sliders[2].value, sliders[3].value, sliders[4].value, sliders[5].value), overdraw = true, transparency = true, color = (:black, 0.05));
 
