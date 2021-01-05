@@ -19,7 +19,7 @@ function DAMM_Makie()
 	y = Int.(y)
 	x_ax = collect(range(1, length=L, stop=L))
 	
-	scene, layout = layoutscene(resolution = (1000, 700));
+	scene, layout = layoutscene(resolution = (2500, 1500));
 	texts = Array{LText}(undef,5);
 	sliderranges = [
 	    3.46e-8:1e-8:1e-6, 
@@ -28,14 +28,14 @@ function DAMM_Makie()
 	    62.0:0.2:70.0,
 	    0.0125:0.001:0.02];
 	sliders = [LSlider(scene, range = sr) for sr in sliderranges];
-	texts[1] = LText(scene, text= lift(X->string(to_latex("kM_{sx}"), " = ", round(X, sigdigits = 2), to_latex(" (gC cm^{-3})")), sliders[1].value), textsize=15, width = Auto(false));
-	texts[2] = LText(scene, text= lift(X->string(to_latex("\\alpha_{sx}"), " = ", X, to_latex(" (mgC cm^{-3} h^{-1})")), sliders[2].value), textsize=15, width = Auto(false));
-	texts[3] = LText(scene, text= lift(X->string(to_latex("kM_{o2}"), " = ", X, to_latex(" (L L^{-1})")), sliders[3].value), textsize=15, width = Auto(false));
-	texts[4] = LText(scene, text= lift(X->string(to_latex("E_a"), " = ", X, to_latex(" (kJ mol^{-1})")), sliders[4].value), textsize=15, width = Auto(false));
-	texts[5] = LText(scene, text= lift(X->string(to_latex("S_x"), " = ", X, to_latex(" (gC cm^{-3})")), sliders[5].value), textsize=15, width = Auto(false));
+	texts[1] = LText(scene, text= lift(X->string(to_latex("kM_{sx}"), " = ", round(X, sigdigits = 2), to_latex(" (gC cm^{-3})")), sliders[1].value), textsize=35, width = Auto(false));
+	texts[2] = LText(scene, text= lift(X->string(to_latex("\\alpha_{sx}"), " = ", X, to_latex(" (mgC cm^{-3} h^{-1})")), sliders[2].value), textsize=35, width = Auto(false));
+	texts[3] = LText(scene, text= lift(X->string(to_latex("kM_{o2}"), " = ", X, to_latex(" (L L^{-1})")), sliders[3].value), textsize=35, width = Auto(false));
+	texts[4] = LText(scene, text= lift(X->string(to_latex("E_a"), " = ", X, to_latex(" (kJ mol^{-1})")), sliders[4].value), textsize=35, width = Auto(false));
+	texts[5] = LText(scene, text= lift(X->string(to_latex("S_x"), " = ", X, to_latex(" (gC cm^{-3})")), sliders[5].value), textsize=35, width = Auto(false));
 	vertical_sublayout = layout[1, 1] = vgrid!(
 	    Iterators.flatten(zip(texts, sliders))...;
-	    width = 200, height = Auto(false));
+	    width = 200, height = 1500); #Auto(false));
 
 	#ax3D = layout[1, 2] = LRect(scene, visible = false);
 	#scene3D = Scene(scene, lift(IRect2D, ax3D.layoutnodes.computedbbox), camera = cam3d!, raw = false, show_axis = true);
