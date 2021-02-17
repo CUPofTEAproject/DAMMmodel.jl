@@ -19,7 +19,7 @@ function DAMM_Makie()
 	y = Int.(y)
 	x_ax = collect(range(1, length=L, stop=L))
 	
-	scene, layout = layoutscene(resolution = (2500, 1500));
+	scene, layout = layoutscene(resolution = (1800, 1000));
 	texts = Array{LText}(undef,5);
 	sliderranges = [
 	    3.46e-8:1e-8:1e-6, 
@@ -35,7 +35,7 @@ function DAMM_Makie()
 	texts[5] = LText(scene, text= lift(X->string(to_latex("S_x"), " = ", X, to_latex(" (gC cm^{-3})")), sliders[5].value), textsize=35, width = Auto(false));
 	vertical_sublayout = layout[1, 1] = vgrid!(
 	    Iterators.flatten(zip(texts, sliders))...;
-	    width = 200, height = 1500); #Auto(false));
+	    width = 200, height = 1000); #Auto(false));
 
 	#ax3D = layout[1, 2] = LRect(scene, visible = false);
 	#scene3D = Scene(scene, lift(IRect2D, ax3D.layoutnodes.computedbbox), camera = cam3d!, raw = false, show_axis = true);
@@ -46,7 +46,7 @@ function DAMM_Makie()
 
 	wireframe!(scene3D, x_ax, y_ax, lift((kMSx, AlphaSx, kMO2, EaSx, Sxtot)->Matrix(sparse(x, y, DAMM(x_range, [AlphaSx, EaSx, kMSx, kMO2, 0.4, Sxtot]))), sliders[1].value, sliders[2].value, sliders[3].value, sliders[4].value, sliders[5].value), overdraw = true, transparency = true, color = (:black, 0.05));
 
-	scale!(scene3D.scene, 1.3, 75, 1.8);
+	scale!(scene3D.scene, 0.9, 75, 2);
 	center!(scene3D.scene);
 	axis3D = scene3D.scene[Axis]
 	axis3D[:ticks][:textsize] = (600.0,600.0,600.0);
@@ -55,3 +55,4 @@ function DAMM_Makie()
 	axis3D[:names][:textsize] = (400.0,400.0,400.0); # same as axis.names.textsize
 scene
 end
+
