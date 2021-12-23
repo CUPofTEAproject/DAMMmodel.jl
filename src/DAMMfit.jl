@@ -1,4 +1,4 @@
-function fitDAMM(Ind_var, Resp)
+function fitDAMM(Ind_var, Resp, poro_val)
   lb = [0.0, 0.0, 0.0, 0.0] # params can't be negative
   p_ini = [0.3, 6.4, 1.0, 1.0] # initial parameters
   p_fact = (1e9, 1e1, 1e-6, 1e-4, 1, 1) # factor of param, better fit
