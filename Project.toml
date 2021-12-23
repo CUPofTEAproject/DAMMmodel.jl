@@ -1,7 +1,7 @@
 name = "DAMMmodel"
 uuid = "7af7f183-cd03-4039-bf6b-67ea3eb1648d"
 authors = ["Alexis Renchon et al."]
-version = "0.1.4"
+version = "0.1.5"
 
 [deps]
 LsqFit = "2fda8390-95c7-5789-9bda-21331edee243"
