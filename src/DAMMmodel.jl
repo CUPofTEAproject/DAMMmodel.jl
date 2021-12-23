@@ -1,6 +1,8 @@
 module DAMMmodel
 
 include("DAMM.jl")
-export DAMM
+include("quantilebins.jl")
+include("DAMMfit.jl")
+export DAMM, qbin, fitDAMM
 
 end
