@@ -1,4 +1,21 @@
 # The Dual Arrhenius and Michealis-Menten (DAMM) model, Davidson et al. 2012
+
+"""
+    DAMM(x, p)
+
+Calculate respiration as a function of soil temperature and moisture.
+
+# Examples
+```julia-repl
+julia> Ts = [18.0, 22.0] # 2 values soil temperature [°C]
+julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3m-3]
+julia> x = hcat(Ts, SWC)
+julia> p = [1e8, 62, 3.46e-8, 2.0e-3, 0.4, 0.0125] # α, Ea, kMsx, kMO2, Sxtot
+julia> DAMM(x, p)
+1.33
+2.33
+```
+"""
 function DAMM(x, p)
      # Constants
 	R = 8.314472e-3 # Universal gas constant, kJ K⁻¹ mol⁻¹
