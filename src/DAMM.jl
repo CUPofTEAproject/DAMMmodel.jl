@@ -5,6 +5,10 @@
 
 Calculate respiration as a function of soil temperature and moisture.
 
+```math
+x^2 + y^2 
+```
+
 # Examples
 ```julia-repl
 julia> Ts = [18.0, 22.0] # 2 values soil temperature [°C]
