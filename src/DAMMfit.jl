@@ -1,3 +1,28 @@
+# Fit DAMM to data, with sx = 0.02 and poro_val given
+
+"""
+    fitDAMM(Ind_var, Resp, poro_val)
+
+fit the DAMM model parameters to data. 
+
+# Examples
+```julia-repl
+julia> Ts = [19.0, 22.0] # 2 values soil temperature [°C]
+julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3m-3]
+julia> Resp = [2, 4] # respiration observation
+julia> Ind_var = hcat(Ts, SWC)
+julia> p = fitDAMM(Ind_var, Resp, 0.4) # fitted params α, Ea, kMsx, kMO2, Sxtot
+  3.533e8
+ 63.604
+  2.489e-10
+  0.005
+  0.4
+  0.02
+julia> DAMM(Ind_var, p)
+  2
+  4
+```
+"""
 function fitDAMM(Ind_var, Resp, poro_val)
   lb = [0.0, 0.0, 0.0, 0.0] # params can't be negative
   p_ini = [0.3, 6.4, 1.0, 1.0] # initial parameters
