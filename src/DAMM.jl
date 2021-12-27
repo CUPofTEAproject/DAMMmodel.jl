@@ -5,10 +5,6 @@
 
 Calculate respiration as a function of soil temperature and moisture.
 
-```math
-x^2 + y^2 
-```
-
 # Examples
 ```julia-repl
 julia> Ts = [18.0, 22.0] # 2 values soil temperature [°C]
@@ -16,8 +12,8 @@ julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3m-3]
 julia> x = hcat(Ts, SWC)
 julia> p = [1e8, 62, 3.46e-8, 2.0e-3, 0.4, 0.0125] # α, Ea, kMsx, kMO2, Sxtot
 julia> DAMM(x, p)
-1.33
-2.33
+  1.33
+  2.33
 ```
 """
 function DAMM(x, p)
@@ -46,3 +42,4 @@ function DAMM(x, p)
 	Resp = @. Vmax * MMₛₓ * MMₒ₂ # Respiration, mg C cm⁻³ hr⁻¹
 	Respc = Resp .* 2314.8148 # Respiration, μmol CO₂ m⁻² s⁻¹
 end
+

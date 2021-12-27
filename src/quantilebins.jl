@@ -1,3 +1,19 @@
+# bin x and y by quantiles, return z quantile
+
+"""
+    qbin(x, y, z, n)
+
+Bins x into n quantiles, each xbin into n quantiles of y, return z quantile
+
+# Examples
+```julia-repl
+julia> df = DataFrame(x=1:20, y=6:25, z=11:30)
+julia> xmed, ymed, zmed = qbin(df.T, df.M, df.R, 3)
+  xmed = [9, 9, 9, 15, 15, 15, 21, 21, 21]
+  ymed = [12, 14, 16, 19, 20.5, 22, 25, 27, 29]
+  zmed = [2, 4, 6, 8.5, 10.5, 15, 17, 19]
+```
+"""
 function qbin(x, y, z, n)
   xq = quantile(x, 0:1/n:1)
   xmed = Float64[] # between quantiles x values

@@ -4,11 +4,11 @@ using Documenter
 makedocs(;
     modules=[DAMMmodel],
     authors="Alexis Renchon et al.",
-    repo="https://github.com/AlexisRenchon/DAMMmodel.jl/blob/{commit}{path}#L{line}",
+    repo="https://github.com/CUPofTEAproject/DAMMmodel.jl/blob/{commit}{path}#L{line}",
     sitename="DAMMmodel.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://AlexisRenchon.github.io/DAMMmodel.jl",
+        canonical="https://CUPofTEAproject.github.io/DAMMmodel.jl",
         assets=String[],
     ),
     pages=[
@@ -17,5 +17,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/AlexisRenchon/DAMMmodel.jl",
+    repo="github.com/CUPofTEAproject/DAMMmodel.jl",
 )
