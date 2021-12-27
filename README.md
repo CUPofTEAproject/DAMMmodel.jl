@@ -5,22 +5,24 @@
 [![Build Status](https://github.com/CUPofTEAproject/DAMMmodel.jl/workflows/CI/badge.svg)](https://github.com/CUPofTEAproject/DAMMmodel.jl/actions)
 [![Coverage](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl)
 
-The Dual Arrhenius Michaelis Menten model 
-Davidson, E. A., and S. Samanta. "A Dual Arrhenius and Michaelis-Menten (DAMM) Kinetics Model of Soil Organic Matter Decomposition." AGUFM 2008 (2008): B11E-04.
+This package models respiration CO2 flux as a function of soil temperature and soil moisture, using 
+the [Dual Arrhenius and Michaelis-Menten](https://doi.org/10.1111/j.1365-2486.2011.02546.x) kinetics model (2012). 
 
-was built for heterotrophic respiration. 
+To install, just type `]add DAMMmodel` in a Julia REPL. 
 
-It has been applied to soil respiration 
-Drake, John E., et al. "Three years of soil respiration in a mature eucalypt woodland exposed to atmospheric CO 2 enrichment." Biogeochemistry 139.1 (2018): 85-101.
+The package contains three functions: `DAMM`, `qbin`, and `fitDAMM`. 
 
-and ecosystem respiration (REF). 
+# Examples
 
-This package contains scripts to visualize the model and fit it to data. 
+    DAMM(x, p)
+Calculate respiration as a function of soil temperature and moisture.
 
-For example, it can be used to:
-gap-fill and partition flux tower (eddy-covariance) or soil respiration datasets
-estimate parameters, e.g. to investigate how they vary in space and time, or by soil and biome
-gap-fill soil respiration datasets
-estimate parameters of soil incubation
-
-It can also be used to produce publication ready figures. 
+```
+julia> Ts = [18.0, 22.0] # 2 values soil temperature [°C]
+julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3m-3]
+julia> x = hcat(Ts, SWC)
+julia> p = [1e8, 62, 3.46e-8, 2.0e-3, 0.4, 0.0125] # α, Ea, kMsx, kMO2, Sxtot
+julia> DAMM(x, p)
+  1.33
+  2.33
+```
