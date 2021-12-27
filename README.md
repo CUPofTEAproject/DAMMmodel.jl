@@ -1,9 +1,9 @@
 # DAMMmodel
 
-[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://AlexisRenchon.github.io/DAMMmodel.jl/stable)
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://AlexisRenchon.github.io/DAMMmodel.jl/dev)
-[![Build Status](https://github.com/AlexisRenchon/DAMMmodel.jl/workflows/CI/badge.svg)](https://github.com/AlexisRenchon/DAMMmodel.jl/actions)
-[![Coverage](https://codecov.io/gh/AlexisRenchon/DAMMmodel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/AlexisRenchon/DAMMmodel.jl)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://CUPofTEAproject.github.io/DAMMmodel.jl/stable)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://CUPofTEAproject.github.io/DAMMmodel.jl/dev)
+[![Build Status](https://github.com/CUPofTEAproject/DAMMmodel.jl/workflows/CI/badge.svg)](https://github.com/CUPofTEAproject/DAMMmodel.jl/actions)
+[![Coverage](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl)
 
 The Dual Arrhenius Michaelis Menten model 
 Davidson, E. A., and S. Samanta. "A Dual Arrhenius and Michaelis-Menten (DAMM) Kinetics Model of Soil Organic Matter Decomposition." AGUFM 2008 (2008): B11E-04.
