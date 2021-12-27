@@ -17,5 +17,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/CUPofTEAproject/DAMMmodel.jl",
+    repo="github.com/CUPofTEAproject/DAMMmodel.jl.git",
 )
