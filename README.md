@@ -28,7 +28,7 @@ To install, just type `]add DAMMmodel` in a Julia REPL.
 The package contains three functions: `DAMM`, `qbin`, and `fitDAMM`. 
 
 ### Examples
-
+#### DAMM
     DAMM(x, p)
 Calculate respiration as a function of soil temperature and moisture.
 
@@ -41,7 +41,7 @@ julia> DAMM(x, p)
   1.33
   2.33
 ```
-
+#### fitDAMM
     fitDAMM(Ind_var, Resp, poro_val)
 fit the DAMM model parameters to data. 
 
@@ -61,7 +61,7 @@ julia> DAMM(Ind_var, p)
   2
   4
 ```
-
+#### qbin
     qbin(x, y, z, n)
 Bins x into n quantiles, each xbin into n quantiles of y, return z quantile
 
