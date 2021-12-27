@@ -2,7 +2,6 @@
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://CUPofTEAproject.github.io/DAMMmodel.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://CUPofTEAproject.github.io/DAMMmodel.jl/dev)
-[![Build Status](https://github.com/CUPofTEAproject/DAMMmodel.jl/workflows/CI/badge.svg)](https://github.com/CUPofTEAproject/DAMMmodel.jl/actions)
 [![Coverage](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl)
 
 **DAMMmodel estimates respiration CO2 efflux as a function of soil temperature and soil moisture.**
