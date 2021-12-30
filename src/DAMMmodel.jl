@@ -5,10 +5,14 @@ using LsqFit
 using DataFrames
 using SparseArrays
 using UnicodeFun
+using GLMakie
 
 include("DAMM.jl")
-include("quantilebins.jl")
 include("DAMMfit.jl")
-export DAMM, qbin, fitDAMM
+include("DAMMmat.jl")
+include("DAMMplot.jl")
+include("DAMMviz.jl")
+include("qbins.jl")
+export DAMM, DAMMfit, DAMMmat, DAMMplot, DAMMviz, qbins
 
 end
