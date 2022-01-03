@@ -5,7 +5,7 @@ using LsqFit
 using DataFrames
 using SparseArrays
 using UnicodeFun
-using GLMakie
+using Makie
 
 include("DAMM.jl")
 include("DAMMfit.jl")
