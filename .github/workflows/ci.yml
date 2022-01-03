@@ -44,7 +44,7 @@ jobs:
       - uses: codecov/codecov-action@v1
         with:
           file: lcov.info
-          docs:
+  docs:
     name: Documentation
     runs-on: ubuntu-latest
     steps:
@@ -57,6 +57,12 @@ jobs:
             using Pkg;
             Pkg.develop(PackageSpec(path=pwd()));
             Pkg.instantiate()'
+      - run: |
+          julia --project=docs -e '
+            using Documenter: DocMeta, doctest
+            using DAMMmodel
+            DocMeta.setdocmeta!(DAMMmodel, :DocTestSetup, :(using DAMMmodel); recursive=true)
+            doctest(DAMMmodel)'
       - run: julia --project=docs docs/make.jl
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
