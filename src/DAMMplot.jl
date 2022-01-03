@@ -1,5 +1,3 @@
-using GLMakie
-
 """
     DAMMplot(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)
 

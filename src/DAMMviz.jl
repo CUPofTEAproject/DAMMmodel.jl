@@ -1,5 +1,3 @@
-using GLMakie
-
 #=
 using GLMakie, SparseArrays, UnicodeFun, DAMMmodel
 
