@@ -72,7 +72,43 @@ julia> xmed, ymed, zmed = qbin(df.T, df.M, df.R, 3)
   ymed = [12, 14, 16, 19, 20.5, 22, 25, 27, 29]
   zmed = [2, 4, 6, 8.5, 10.5, 15, 17, 19]
 ```
+#### DAMMmat
+    DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)
+Generates a matrix of DAMM output for gridded inputs x and y Inputs: 
+soil temperature (Ts), soil moisture (θ), respiration (R), resolution (r)
 
+```jl
+julia> Ts = collect(15.0:2.5:40.0)
+julia> θ = collect(0.2:0.05:0.7)
+julia> R = [1.0, 1.2, 1.5, 2.0, 2.7, 3.8, 4.9, 6.7, 4.1, 2.0, 0.4]
+julia> r = 10
+julia> poro_val, params, x, y, DAMM_Matrix = DAMMmat(Ts, θ, R, r)
+```
+    DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64, n::Int64)
+Bin data by n quantiles
+
+```jl
+julia> n = 4
+julia> poro_val, Tmed, θmed, Rmed, params, x, y, DAMM_Matrix = DAMMmat(Ts, θ, R, r, n)
+```
+#### DAMMplot
+    DAMMplot(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)
+Plot scatter of data and fitted DAMM surface
+
+```jl
+julia> Ts = collect(15.0:2.5:40.0)
+julia> θ = collect(0.2:0.05:0.7)
+julia> R = [1.0, 1.2, 1.5, 2.0, 2.7, 3.8, 4.9, 6.7, 4.1, 2.0, 0.4]
+julia> r = 10
+julia> fig = DAMMplot(Ts, θ, R, r)
+```
+#### DAMMviz
+    DAMMviz()
+Interactive plot of the DAMM model
+
+```jl
+julia> DAMMviz()
+```
 ## Contributing
 
 Issues and pull requests are welcome!
