@@ -1,12 +1,16 @@
 #=
-using GLMakie, SparseArrays, UnicodeFun, DAMMmodel
+using GLMakie, SparseArrays, UnicodeFun
+, DAMMmodel
+
+include("DAMM.jl")
+include("constants.jl")
 
 TO DO checkbox list:
 [x] adjust color scales
 [x] adjust sliders range
 [] interactivity for porosity
 [x] increase font size
-[] add a "parameter" title and "isoline" title above sliders
+[] add a "parameters" title and "drivers" title above sliders
 =#
 
 """
@@ -37,7 +41,7 @@ function DAMMviz()
   texts = Array{Label}(undef, 8);
   sliderranges = [
     1e8:1e8:1e9, # α or p[1]  
-    58:1:70, # Ea p[2]
+    58.0:1.0:70.0, # Ea p[2]
     1e-9:1e-6:1e-5, # kMsx p[3]
     1e-4:1e-3:1e-2, # kMo2 p[4]
     0.3:0.05:0.8, # porosity p[5]
@@ -59,9 +63,9 @@ function DAMMviz()
    ) #width = 200, height = 1000);
 
   αsx = sliders[1].value
-  set_close_to!(sliders[1], 6e8)
+  set_close_to!(sliders[1], 7e8)
   Ea = sliders[2].value
-  set_close_to!(sliders[2], 64)
+  set_close_to!(sliders[2], 61)
   kMsx = sliders[3].value
   set_close_to!(sliders[3], 5e-6)
   kMo2 = sliders[4].value
@@ -75,7 +79,7 @@ function DAMMviz()
   θ = sliders[8].value 
   set_close_to!(sliders[8], 0.4)
 
-  params = @lift([$αsx, $Ea, $kMsx, $kMo2, 0.7, $sx])
+  params = @lift(($αsx, $Ea, $kMsx, $kMo2, 0.7, $sx))
   DAMM_Matrix = @lift(Matrix(sparse(X, Y, DAMM(xy, $params))))
   
   s3D = surface!(ax3D, x, y, DAMM_Matrix, colormap = Reverse(:Spectral),
