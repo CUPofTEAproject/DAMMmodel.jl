@@ -1,7 +1,9 @@
 #=
 using GLMakie, SparseArrays, UnicodeFun
-, DAMMmodel
-
+using Unitful: R, L, mol, K, kJ, °C, m, g, cm, hr, mg, s, μmol
+using UnitfulMoles: molC
+using Unitful, UnitfulMoles
+@compound CO₂
 include("DAMM.jl")
 include("constants.jl")
 
