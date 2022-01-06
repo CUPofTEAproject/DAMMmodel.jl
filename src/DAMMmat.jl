@@ -1,3 +1,18 @@
+#=
+using DataFrames, Statistics, SparseArrays 
+using Unitful: R, L, mol, K, kJ, °C, m, g, cm, hr, mg, s, μmol
+using UnitfulMoles: molC
+using Unitful, UnitfulMoles
+@compound CO₂
+using LsqFit
+using SparseArrays
+include("constants.jl")
+include("DAMM.jl")
+include("DAMMfit.jl")
+include("constructors.jl")
+include("qbins.jl")
+=#
+
 """
     DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)
 
@@ -8,9 +23,9 @@ Inputs: soil temperature (Ts), soil moisture (θ), respiration (R), resolution (
 ```julia-repl
 julia> Ts = collect(15.0:2.5:40.0)
 julia> θ = collect(0.2:0.05:0.7)
-julia> R = [1.0, 1.2, 1.5, 2.0, 2.7, 3.8, 4.9, 6.7, 4.1, 2.0, 0.4]
+julia> Rₛ = [1.0, 1.2, 1.5, 2.0, 2.7, 3.8, 4.9, 6.7, 4.1, 2.0, 0.4]
 julia> r = 10
-julia> poro_val, params, x, y, DAMM_Matrix = DAMMmat(Ts, θ, R, r)
+julia> out = DAMMmat(Ts, θ, Rₛ, r)
 ```
 
     DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64, n::Int64)
@@ -20,7 +35,7 @@ Bin data by n quantiles
 # Examples: 
 ```julia-repl
 julia> n = 4
-julia> poro_val, Tmed, θmed, Rmed, params, x, y, DAMM_Matrix = DAMMmat(Ts, θ, R, r, n)
+julia> out = DAMMmat(Ts, θ, Rₛ, r, n)
 ```
 """
 function DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)   
@@ -35,7 +50,7 @@ function DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64,
   Y2 = repeat(y, outer=r) # M values to fit DAMM on
   xy = hcat(X2, Y2) # T and M matrix to create DAMM matrix 
   DAMM_Matrix = Matrix(sparse(X, Y, DAMM(xy, params)))
-  return poro_val, params, x, y, DAMM_Matrix
+  return sDAMMmat(poro_val, params, x, y, DAMM_Matrix)
 end
 
 function DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64, n::Int64)   
@@ -51,9 +66,6 @@ function DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64,
   Y2 = repeat(y, outer=r) # M values to fit DAMM on
   xy = hcat(X2, Y2) # T and M matrix to create DAMM matrix 
   DAMM_Matrix = Matrix(sparse(X, Y, DAMM(xy, params)))
-  return poro_val, Tmed, θmed, Rmed, params, x, y, DAMM_Matrix
+  return sDAMMmatq(poro_val, Tmed, θmed, Rmed, params, x, y, DAMM_Matrix)
 end
 
-#= 
-using DataFrames, DAMMmodel, Statistics, SparseArrays 
-=#

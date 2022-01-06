@@ -2,6 +2,25 @@
 using Unitful: R, L, mol, K, kJ, °C, m, g, cm, hr, mg, s, μmol
 =#
 
+struct sDAMMmat
+  porosity::Float64
+  params::NTuple{6, Float64}
+  x::Array{Float64, 1}
+  y::Array{Float64, 1}
+  DAMM_Matrix::Array{Float64, 2}
+end
+
+struct sDAMMmatq
+  porosity::Float64
+  Tmed::Array{Float64, 1}
+  θmed::Array{Float64, 1}
+  Rmed::Array{Float64, 1}
+  params::NTuple{6, Float64}
+  x::Array{Float64, 1}
+  y::Array{Float64, 1}
+  DAMM_Matrix::Array{Float64, 2}
+end
+
 #= needs to be an array
 struct DAMMparams  
   αₛₓ::Float64 # Pre-exponential factor
