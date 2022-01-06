@@ -8,9 +8,7 @@ include("constants.jl")
 
 """
     DAMM(x::VecOrMat{<: Real}, p::NTuple{6, Float64})
-
 Calculate respiration as a function of soil temperature and moisture.
-
 # Examples
 ```julia-repl
 julia> Tₛ = [18.0, 22.0] # soil temperature [°C]
