@@ -12,12 +12,13 @@ using Unitful, UnitfulMoles
 @compound CO₂
 
 include("constants.jl")
+include("constructors.jl")
 include("DAMM.jl")
 include("DAMMfit.jl")
 include("DAMMmat.jl")
 include("DAMMplot.jl")
 include("DAMMviz.jl")
 include("qbins.jl")
-export DAMM, DAMMfit, DAMMmat, DAMMplot, DAMMviz, qbins
+export DAMM, DAMMfit, DAMMmat, DAMMplot, DAMMviz, qbins, sDAMMmat, sDAMMmatq
 
 end

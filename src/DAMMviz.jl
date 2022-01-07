@@ -41,7 +41,7 @@ function DAMMviz()
     0.3:0.05:0.8, # porosity p[5]
     0.01:0.01:0.1, # sx, p[6]
     0:2:40, # Ts
-    0:0.02:0.7 # θ
+    0:0.02:0.8 # θ
    ]; #
   sliders = [Slider(fig, range = sr) for sr in sliderranges];
   texts[1] = Label(fig, text= lift(X->string(to_latex("\\alpha_{sx}"), " = ", X, to_latex(" (mgC cm^{-3} h^{-1})")), sliders[1].value), textsize=30, width = Auto(false));
