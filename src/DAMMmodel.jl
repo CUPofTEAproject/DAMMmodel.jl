@@ -11,14 +11,14 @@ using UnitfulMoles: molC
 using Unitful, UnitfulMoles
 @compound CO₂
 
-include("constants.jl")
-include("constructors.jl")
-include("DAMM.jl")
-include("DAMMfit.jl")
-include("DAMMmat.jl")
-include("DAMMplot.jl")
-include("DAMMviz.jl")
-include("qbins.jl")
+include(joinpath("constructors", "constants.jl"))
+include(joinpath("constructors", "constructors.jl"))
+include(joinpath("functions", "maths", "DAMM.jl"))
+include(joinpath("functions", "maths", "DAMMfit.jl"))
+include(joinpath("functions", "maths", "DAMMmat.jl"))
+include(joinpath("functions", "viz", "DAMMplot.jl"))
+include(joinpath("functions", "viz", "DAMMviz.jl"))
+include(joinpath("functions", "maths", "qbins.jl"))
 export DAMM, DAMMfit, DAMMmat, DAMMplot, DAMMviz, qbins, sDAMMmat, sDAMMmatq
 
 end
