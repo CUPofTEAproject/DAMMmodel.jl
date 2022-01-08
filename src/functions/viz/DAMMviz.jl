@@ -4,15 +4,20 @@ using Unitful: R, L, mol, K, kJ, °C, m, g, cm, hr, mg, s, μmol
 using UnitfulMoles: molC
 using Unitful, UnitfulMoles
 @compound CO₂
-include("DAMM.jl")
-include("constants.jl")
+include("/home/alexis/MyPackages/DAMMmodel/src/functions/maths/DAMM.jl")
+include("/home/alexis/MyPackages/DAMMmodel/src/constructors/constants.jl")
 
-TO DO checkbox list:
-[x] adjust color scales
-[x] adjust sliders range
-[] interactivity for porosity
-[x] increase font size
-[] add a "parameters" title and "drivers" title above sliders
+Checkbox list for v0.1.2:
+[] sliders layout: left aligned
+[x] Rsoil value changing interactively
+[] Rsoil text color changing interactively (maybe not: can't see yellow!)
+[] Rsoil text position (need to think where would be best)
+[x] vertical and horizontal lines in 2D plots, going from axes to the point, color = Rs
+[x] same lines as 2D plots on the 3D ax
+[] theta needs to be forced to two decimal to avoid auto position problem
+[] bugfix: porositity when increase slider value
+[x] lines parallel to axis on 3D plot, equal to current Ts, theta, Rs, + line to dot, colored by value
+[] Only substrate limitation and only oxygen limitation on 2D plot, as in Pallandt et al. supplement
 =#
 
 """
@@ -26,7 +31,7 @@ julia> DAMMviz()
 ```
 """
 function DAMMviz()
-  fontsize_theme = Theme(fontsize = 30)
+  fontsize_theme = Theme(fontsize = 30, font = "JuliaMono")
   set_theme!(fontsize_theme)
 
   fig = Figure(resolution = (2400, 1900))
@@ -51,15 +56,7 @@ function DAMMviz()
   texts[5] = Label(fig, text= lift(X->string(to_latex("Porosity"), " = ", X, to_latex(" (m^3 m^{-3})")), sliders[5].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
   texts[6] = Label(fig, text= lift(X->string(to_latex("S_x"), " = ", X, to_latex(" (gC cm^{-3})")), sliders[6].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
   texts[7] = Label(fig, text= lift(X->string("Drivers\n", to_latex("T_s"), " = ", X, to_latex(" (°C)")), sliders[7].value), justification = :left, halign = :left, textsize=30, color = :green, width = Auto(false));
-  texts[8] = Label(fig, text= lift(X->string(to_latex("θ"), " = ", X, to_latex(" (m^3 m^{-3})")), sliders[8].value), justification = :left, halign = :left, textsize=30, color = :green, width = Auto(false));
-  vertical_sublayout = fig[1, 1] = hgrid!(vgrid!(
-  Iterators.flatten(zip(texts[1:6], sliders[1:6]))...;
-   ),  #width = 200, height = 1000);
-  
-  #vertical_sublayout2 = fig[1, 2] = 
-  vgrid!(
-  Iterators.flatten(zip(texts[7:8], sliders[7:8]))...;
- ), Label(fig, text = string(to_latex("R_{soil} "), "\n", 5.0, to_latex(" (\\mumol m^{-2} s^{-1})")), color = :red, justification = :left, halign = :left, textsize = 30, width = Auto(false))) #width = 200, height = 1000);
+  texts[8] = Label(fig, text= lift(X->string(to_latex("θ"), " = ", round(X, sigdigits = 3), to_latex(" (m^3 m^{-3})")), sliders[8].value), justification = :left, halign = :left, textsize=30, color = :green, width = Auto(false));
 
   αsx = sliders[1].value
   set_close_to!(sliders[1], 7e8)
@@ -74,7 +71,7 @@ function DAMMviz()
   sx = sliders[6].value
   set_close_to!(sliders[6], 0.05)
   Ts = sliders[7].value
-  set_close_to!(sliders[7], 38)
+  set_close_to!(sliders[7], 28)
   θ = sliders[8].value 
   set_close_to!(sliders[8], 0.4)
 
@@ -89,9 +86,19 @@ function DAMMviz()
 
   params = @lift(($αsx, $Ea, $kMsx, $kMo2, $porosity, $sx))
   DAMM_Matrix = @lift(Matrix(sparse(X, Y, DAMM($xy, $params))))
-  
+  Rₛ = @lift(DAMM(hcat($Ts, $θ), $params))
+  Rₛᵣ = @lift(round.($Rₛ, sigdigits = 2)[1])
+
+  vertical_sublayout = fig[1, 1] = hgrid!(vgrid!(
+  Iterators.flatten(zip(texts[1:6], sliders[1:6]))...;
+   ),  #width = 200, height = 1000); 
+  #vertical_sublayout2 = fig[1, 2] = 
+  vgrid!(
+  Iterators.flatten(zip(texts[7:8], sliders[7:8]))...,
+  Label(fig, text = lift(X -> string("\n", to_latex("R_{s} = "), X, to_latex(" (\\mumol m^{-2} s^{-1})")), Rₛᵣ), color = :red, justification = :left, halign = :left, textsize = 30, width = Auto(false)))) #width = 200, height = 1000);
+
   s3D = surface!(ax3D, x, y, DAMM_Matrix, colormap = Reverse(:Spectral),
-	transparency = true, alpha = 0.01, shading = false, colorrange = (0, 30))
+	transparency = true, alpha = 0.2, shading = false, colorrange = (0, 30))
   w3D = wireframe!(ax3D, x, y, DAMM_Matrix, overdraw = true,
 	transparency = true, color = (:black, 0.1));
   point = @lift(DAMM(hcat($Ts, $θ), $params))
@@ -107,6 +114,13 @@ function DAMMviz()
 	 colormap = Reverse(:Spectral), colorrange = (0, 30))
   pointTs2D = @lift(Point2f0.($Ts, $point))
   scatter!(ax2D, pointTs2D, color = :black, markersize = 20)
+  linep = @lift(repeat($point, r))
+  linev = @lift(repeat([$θ], r))
+  lineh = @lift(repeat([$Ts], r))
+  allθ = collect(range(0, length=r, stop=1.0))
+  allR = collect(range(0, length=r, stop=30.0))
+  lines!(ax2D, x, linep, color = :black, linestyle = :dash)
+  lines!(ax2D, lineh, x, color = :black, linestyle = :dash)
 	
   ax2D2 = Axis(fig[2, 2:3])
   isoT = @lift(collect(range($Ts, length=length(x), stop=$Ts)))
@@ -115,18 +129,51 @@ function DAMMviz()
 	 colormap = Reverse(:Spectral), colorrange = (0, 30))
   pointθ2D = @lift(Point2f0.($θ, $point))
   scatter!(ax2D2, pointθ2D, color = :black, markersize = 20)
+  lines!(ax2D2, allθ, linep, color = :black, linestyle = :dash)
+  lines!(ax2D2, linev, x, color = :black, linestyle = :dash)
 
   # isoline in the 3D figure
   lines!(ax3D, x, isoθ, isoy, color = isoy, linewidth = 8,
 	 colormap = Reverse(:Spectral), colorrange = (0, 30))
   # lines!(ax3D, x .+1, isoθ, isoy, linewidth = 1, color = :black)
   # lines!(ax3D, x .-1, isoθ, isoy, linewidth = 1, color = :black)
-
   lines!(ax3D, isoT, y, isox, color = isox, linewidth = 8,
 	 colormap = Reverse(:Spectral), colorrange = (0, 30))
+  iso40 = repeat([40], r)
+  iso1 = repeat([1], r) 
+  iso0 = repeat([0], r)
+  lines!(ax3D, x, iso1, linep,
+	 color = (:black, 0.4), linestyle = :dash, transparency = true)
+  lines!(ax3D, iso40, allθ, linep,
+	 color = (:black, 0.4), linestyle = :dash, transparency = true)
+  lines!(ax3D, x, isoθ, iso0,
+	 color = (:black, 0.4), linestyle = :dash, transparency = true)
+  lines!(ax3D, iso40, isoθ, allR,
+	 color = (:black, 0.4), linestyle = :dash, transparency = true)
+  lines!(ax3D, isoT, allθ, iso0,
+	 color = (:black, 0.4), linestyle = :dash, transparency = true)
+  lines!(ax3D, isoT, iso1, allR,
+	 color = (:black, 0.4), linestyle = :dash, transparency = true)
+  lines!(ax3D, x, isoθ, linep,
+	 color = (:black, 0.4), linestyle = :dash, transparency = true)
+  lines!(ax3D, isoT, allθ, linep,
+	 color = (:black, 0.4), linestyle = :dash, transparency = true)
+  lines!(ax3D, isoT, isoθ, allR,
+	 color = (:black, 0.4), linestyle = :dash, transparency = true)
+
+  lines!(ax3D, x, iso1, isoy, color = isoy, linewidth = 8, alpha = 0.2,
+	 colormap = Reverse(:Spectral), colorrange = (0, 30), transparency = true)
+  lines!(ax3D, iso40, y, isox, color = isox, linewidth = 8, alpha = 0.2,
+	 colormap = Reverse(:Spectral), colorrange = (0, 30), transparency = true)
+
+  point3D_T = @lift(Vec3f0.($Ts, 1.0, $point))
+  point3D_θ = @lift(Vec3f0.(40.0, $θ, $point))
+  scatter3D_T = scatter!(ax3D, point3D_T, markersize = 8000, color = :black)
+  scatter3D_θ = scatter!(ax3D, point3D_θ, markersize = 8000, color = :black)
 
   ylims!(ax2D, 0.0, 30.0); xlims!(ax2D, 10.0, 40.0);
-  ylims!(ax2D2, 0.0, 30.0); xlims!(ax2D2, 0.0, 0.8);
+  ylims!(ax2D2, 0.0, 30.0); xlims!(ax2D2, 0.0, 1.0);
+  xlims!(ax3D, 0.0, 40.0);
   ylims!(ax3D, 0.0, 1.0);
   zlims!(ax3D, 0.0, 30.0);
 
@@ -143,9 +190,11 @@ function DAMMviz()
   #FZ = 30; ax2D.xlabelsize = FZ; ax2D.ylabelsize = FZ; ax2D2.xlabelsize = FZ; ax2D2.ylabelsize = FZ;
   #ax2D.xticklabelsize = FZ; ax2D.yticklabelsize = FZ; ax2D2.xticklabelsize = FZ; ax2D2.yticklabelsize = FZ;
   colsize!(fig.layout, 1, Relative(1/2))
-  rowsize!(fig.layout, 1, Relative(2/3))
+  rowsize!(fig.layout, 1, Relative(1/2))
 
-  supertitle = Label(fig[0, :], "Dual Arrhenius and Michaelis-Menten (DAMM) interactive visualisation, v1.0", textsize = 40)
+  supertitle = Label(fig[0, :], "Dual Arrhenius and Michaelis-Menten (DAMM) interactive visualisation, v0.1.2", textsize = 40)
+
+  # vertical_sublayout.alignmode
 
   fig
   return fig
