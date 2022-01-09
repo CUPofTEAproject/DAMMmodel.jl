@@ -5,11 +5,11 @@ using UnitfulMoles: molC
 using Unitful, UnitfulMoles
 @compound CO₂
 using LsqFit
-include("constants.jl")
-include("constructors.jl")
-include("DAMM.jl")
-include("DAMMmat.jl")
-include("DAMMfit.jl")
+include("/home/alexis/MyPackages/DAMMmodel/src/constructors/constants.jl")
+include("/home/alexis/MyPackages/DAMMmodel/src/constructors/constructors.jl")
+include("/home/alexis/MyPackages/DAMMmodel/src/functions/maths/DAMM.jl")
+include("/home/alexis/MyPackages/DAMMmodel/src/functions/maths/DAMMmat.jl")
+include("/home/alexis/MyPackages/DAMMmodel/src/functions/maths/DAMMfit.jl")
 =#
 
 """
@@ -33,7 +33,7 @@ function DAMMplot(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, Rₛ::Array{Floa
   ax3D.xlabel = to_latex("T_{soil} (°C)");
   ax3D.ylabel = to_latex("\\theta (m^3 m^{-3})");
   ax3D.zlabel = to_latex("R_{soil} (\\mumol m^{-2} s^{-1})");
-  data3D = Vec3f0.(Ts, θ, Rₛ)
+  data3D = Vec3f.(Ts, θ, Rₛ)
   p3D = scatter!(ax3D, data3D, markersize = 2500, strokewidth = 3,
 	color = Rₛ, colormap = Reverse(:Spectral))
   s3D = surface!(ax3D, out.x, out.y, out.DAMM_Matrix, colormap = Reverse(:Spectral),
