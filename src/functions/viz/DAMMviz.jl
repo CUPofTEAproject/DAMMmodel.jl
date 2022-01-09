@@ -102,7 +102,7 @@ function DAMMviz()
   w3D = wireframe!(ax3D, x, y, DAMM_Matrix, overdraw = true,
 	transparency = true, color = (:black, 0.1));
   point = @lift(DAMM(hcat($Ts, $θ), $params))
-  point3D = @lift(Vec3f0.($Ts, $θ, $point))
+  point3D = @lift(Vec3f.($Ts, $θ, $point))
   scatter3D = scatter!(ax3D, point3D, markersize = 8000, color = :black)
   Colorbar(fig[1, 3], colormap = Reverse(:Spectral), limits = (0, 30),
 	   label = to_latex("R_{soil} (\\mumol m^{-2} s^{-1})")); 
@@ -112,7 +112,7 @@ function DAMMviz()
   isoy = @lift(DAMM(hcat(x, $isoθ), $params))
   lines!(ax2D, x, isoy, color = isoy, linewidth = 8,
 	 colormap = Reverse(:Spectral), colorrange = (0, 30))
-  pointTs2D = @lift(Point2f0.($Ts, $point))
+  pointTs2D = @lift(Point2f.($Ts, $point))
   scatter!(ax2D, pointTs2D, color = :black, markersize = 20)
   linep = @lift(repeat($point, r))
   linev = @lift(repeat([$θ], r))
@@ -127,7 +127,7 @@ function DAMMviz()
   isox = @lift(DAMM(hcat($isoT, $y), $params))
   lines!(ax2D2, y, isox, color = isox, linewidth = 8,
 	 colormap = Reverse(:Spectral), colorrange = (0, 30))
-  pointθ2D = @lift(Point2f0.($θ, $point))
+  pointθ2D = @lift(Point2f.($θ, $point))
   scatter!(ax2D2, pointθ2D, color = :black, markersize = 20)
   lines!(ax2D2, allθ, linep, color = :black, linestyle = :dash)
   lines!(ax2D2, linev, x, color = :black, linestyle = :dash)
@@ -166,8 +166,8 @@ function DAMMviz()
   lines!(ax3D, iso40, y, isox, color = isox, linewidth = 8, alpha = 0.2,
 	 colormap = Reverse(:Spectral), colorrange = (0, 30), transparency = true)
 
-  point3D_T = @lift(Vec3f0.($Ts, 1.0, $point))
-  point3D_θ = @lift(Vec3f0.(40.0, $θ, $point))
+  point3D_T = @lift(Vec3f.($Ts, 1.0, $point))
+  point3D_θ = @lift(Vec3f.(40.0, $θ, $point))
   scatter3D_T = scatter!(ax3D, point3D_T, markersize = 8000, color = :black)
   scatter3D_θ = scatter!(ax3D, point3D_θ, markersize = 8000, color = :black)
 
