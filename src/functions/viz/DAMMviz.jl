@@ -119,8 +119,8 @@ function DAMMviz()
   lineh = @lift(repeat([$Ts], r))
   allθ = collect(range(0, length=r, stop=1.0))
   allR = collect(range(0, length=r, stop=30.0))
-  lines!(ax2D, x, linep, color = :black, linestyle = :dash)
-  lines!(ax2D, lineh, x, color = :black, linestyle = :dash)
+  lines!(ax2D, x, linep, color = (:black, 0.4), linestyle = :dash)
+  lines!(ax2D, lineh, x, color = (:black, 0.4), linestyle = :dash)
 	
   ax2D2 = Axis(fig[2, 2:3])
   isoT = @lift(collect(range($Ts, length=length(x), stop=$Ts)))
@@ -129,8 +129,8 @@ function DAMMviz()
 	 colormap = Reverse(:Spectral), colorrange = (0, 30))
   pointθ2D = @lift(Point2f.($θ, $point))
   scatter!(ax2D2, pointθ2D, color = :black, markersize = 20)
-  lines!(ax2D2, allθ, linep, color = :black, linestyle = :dash)
-  lines!(ax2D2, linev, x, color = :black, linestyle = :dash)
+  lines!(ax2D2, allθ, linep, color = (:black, 0.4), linestyle = :dash)
+  lines!(ax2D2, linev, x, color = (:black, 0.4), linestyle = :dash)
 
   # isoline in the 3D figure
   lines!(ax3D, x, isoθ, isoy, color = isoy, linewidth = 8,
