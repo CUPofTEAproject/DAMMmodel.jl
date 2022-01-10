@@ -34,7 +34,7 @@ function DAMMviz()
   fontsize_theme = Theme(fontsize = 30, font = "JuliaMono")
   set_theme!(fontsize_theme)
 
-  fig = Figure(resolution = (2400, 1900))
+  fig = Figure(resolution = (2200, 1300), figure_padding = 30)
   ax3D = Axis3(fig[1, 2])
 
   texts = Array{Label}(undef, 8);
@@ -87,7 +87,7 @@ function DAMMviz()
   params = @lift(($αsx, $Ea, $kMsx, $kMo2, $porosity, $sx))
   DAMM_Matrix = @lift(Matrix(sparse(X, Y, DAMM($xy, $params))))
   Rₛ = @lift(DAMM(hcat($Ts, $θ), $params))
-  Rₛᵣ = @lift(round.($Rₛ, sigdigits = 2)[1])
+  Rₛᵣ = @lift(round.($Rₛ, sigdigits = 3)[1])
 
   vertical_sublayout = fig[1, 1] = hgrid!(vgrid!(
   Iterators.flatten(zip(texts[1:6], sliders[1:6]))...;
@@ -104,7 +104,7 @@ function DAMMviz()
   point = @lift(DAMM(hcat($Ts, $θ), $params))
   point3D = @lift(Vec3f.($Ts, $θ, $point))
   scatter3D = scatter!(ax3D, point3D, markersize = 8000, color = :black)
-  Colorbar(fig[1, 3], colormap = Reverse(:Spectral), limits = (0, 30),
+  cb = Colorbar(fig[1, 3], colormap = Reverse(:Spectral), limits = (0, 30),
 	   label = to_latex("R_{soil} (\\mumol m^{-2} s^{-1})")); 
 	
   ax2D = Axis(fig[2, 1])
@@ -180,6 +180,9 @@ function DAMMviz()
   ax3D.xlabel = to_latex("T_{soil} (°C)");
   ax3D.ylabel = to_latex("\\theta (m^3 m^{-3})");
   ax3D.zlabel = to_latex("R_{soil} (\\mumol m^{-2} s^{-1})");
+  ax3D.zlabeloffset = 80
+  ax3D.xlabeloffset = 50
+  ax3D.ylabeloffset = 60
 
   ax2D.xlabel = to_latex("T_{soil} (°C)");
   ax2D.ylabel = to_latex("R_{soil} (\\mumol m^{-2} s^{-1})");
@@ -190,12 +193,17 @@ function DAMMviz()
   #FZ = 30; ax2D.xlabelsize = FZ; ax2D.ylabelsize = FZ; ax2D2.xlabelsize = FZ; ax2D2.ylabelsize = FZ;
   #ax2D.xticklabelsize = FZ; ax2D.yticklabelsize = FZ; ax2D2.xticklabelsize = FZ; ax2D2.yticklabelsize = FZ;
   colsize!(fig.layout, 1, Relative(1/2))
+  #colsize!(fig.layout, 1, Aspect(1, 2.0))
   rowsize!(fig.layout, 1, Relative(1/2))
+  #resize_to_layout!(fig)
 
   supertitle = Label(fig[0, :], "Dual Arrhenius and Michaelis-Menten (DAMM) interactive visualisation, v0.1.2", textsize = 40)
 
-  # vertical_sublayout.alignmode
+  # vertical_sublayout.alignmode = Mixed(left = 0)
 
+  cb.alignmode = Mixed(right = 0)
+  #set_theme!(figure_padding = 30)
+  DataInspector(fig)
   fig
   return fig
 end

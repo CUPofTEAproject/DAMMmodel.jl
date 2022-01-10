@@ -21,8 +21,8 @@ bibliography: paper.bib
 # Summary
 
 Current climate change is mostly the result of increasing atmospheric greenhouse
-gases concentration, particularly carbon dioxide (CO<sub>2</sub>). The land has
-been absorbing about a third of anthropogenic CO2 emissions, but this may change.
+gases concentration, particularly carbon dioxide (CO~2~). The land has
+been absorbing about a third of anthropogenic CO~2~ emissions, but this may change.
 Earth System Models attempts to predict future climate, accounting for feedbacks, 
 including how the land will respond. The Dual Arrhenius and Michaelis-Menten
 (DAMM) kinetics model is a semi-mechanistic model of heterotrophic respiration 
