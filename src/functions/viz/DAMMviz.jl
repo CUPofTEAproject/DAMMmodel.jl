@@ -95,7 +95,7 @@ function DAMMviz()
   #vertical_sublayout2 = fig[1, 2] = 
   vgrid!(
   Iterators.flatten(zip(texts[7:8], sliders[7:8]))...,
-  Label(fig, text = lift(X -> string("\n", to_latex("R_{s} = "), X, to_latex(" (\\mumol m^{-2} s^{-1})")), Rₛᵣ), color = :red, justification = :left, halign = :left, textsize = 30, width = Auto(false)))) #width = 200, height = 1000);
+  Label(fig, text = lift(X -> string("\n", to_latex("R_{s} = "), X, to_latex(" (\\mumol m^{-2} s^{-1})")), Rₛᵣ), color = :red, justification = :left, halign = :left, textsize = 30, width = Auto(false))), halign = :left) #width = 200, height = 1000);
 
   s3D = surface!(ax3D, x, y, DAMM_Matrix, colormap = Reverse(:Spectral),
 	transparency = true, alpha = 0.2, shading = false, colorrange = (0, 30))
@@ -198,8 +198,6 @@ function DAMMviz()
   #resize_to_layout!(fig)
 
   supertitle = Label(fig[0, :], "Dual Arrhenius and Michaelis-Menten (DAMM) interactive visualisation, v0.1.2", textsize = 40)
-
-  # vertical_sublayout.alignmode = Mixed(left = 0)
 
   cb.alignmode = Mixed(right = 0)
   #set_theme!(figure_padding = 30)
