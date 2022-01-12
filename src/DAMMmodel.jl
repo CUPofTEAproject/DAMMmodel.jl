@@ -9,6 +9,7 @@ using GLMakie
 using Unitful: R, L, mol, K, kJ, °C, m, g, cm, hr, mg, s, μmol
 using UnitfulMoles: molC
 using Unitful, UnitfulMoles
+@compound CO₂
 
 include(joinpath("constructors", "constants.jl"))
 include(joinpath("constructors", "constructors.jl"))
