@@ -1,5 +1,6 @@
 module DAMMmodel
 
+using DocStringExtensions
 using Statistics
 using LsqFit
 using DataFrames

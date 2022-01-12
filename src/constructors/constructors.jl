@@ -1,7 +1,10 @@
-#=
-using Unitful: R, L, mol, K, kJ, °C, m, g, cm, hr, mg, s, μmol
-=#
+"""
+    struct sDAMMmat
+Fields required to plot surface of DAMM
 
+# Fields
+$(TYPEDFIELDS)
+"""
 struct sDAMMmat
   porosity::Float64
   params::NTuple{6, Float64}
@@ -10,6 +13,13 @@ struct sDAMMmat
   DAMM_Matrix::Array{Float64, 2}
 end
 
+"""
+    struct sDAMMmatq
+Fields required to plot surface of DAMM
+
+# Fields
+$(TYPEDFIELDS)
+"""
 struct sDAMMmatq
   porosity::Float64
   Tmed::Array{Float64, 1}
@@ -21,7 +31,7 @@ struct sDAMMmatq
   DAMM_Matrix::Array{Float64, 2}
 end
 
-#= needs to be an array
+#= IF LsqFit.jl allows params to be a struct, then use:
 struct DAMMparams  
   αₛₓ::Float64 # Pre-exponential factor
   Eaₛₓ::Float64 # Activation energy
@@ -30,8 +40,9 @@ struct DAMMparams
   porosity::Float64 # Soil bulk density / soil particle density
   Sxₜₒₜ::Float64 # Total soil carbon
 end
-=#
 
+
+#IF LsqFit.jl allows params to be a Dict, then use:
 function DAMMparams(p::NTuple{6, Float64})  
   p = Dict([:αₛₓ, :Eaₛₓ, :kMₛₓ, :kMₒ₂, :porosity, :Sxₜₒₜ] 
 	   .=> [p[1], p[2], p[3], p[4], p[5], p[6]])
@@ -48,10 +59,4 @@ function DAMMparams_u(p::Dict{Symbol, Float64}) # give unit to params
 	   .=> [αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, porosity, Sxₜₒₜ])
   return P
 end
-
-#=
-p = (1e9, 64.0, 3.46e-8, 2.0e-3, 0.4, 0.0125)
-p = DAMMparams(p)
-P = DAMMparams_u(p)
-P[:αₛₓ]
 =#

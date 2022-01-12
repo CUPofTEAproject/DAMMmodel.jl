@@ -1,14 +1,3 @@
-#=
-using Unitful: R, L, mol, K, kJ, °C, m, g, cm, hr, mg, s, μmol
-using UnitfulMoles: molC
-using Unitful, UnitfulMoles
-@compound CO₂
-using LsqFit
-include("constants.jl")
-include("constructors.jl")
-include("DAMM.jl")
-=#
-
 """
     DAMMfit(Ind_var, Resp, poro_val)
 

@@ -1,10 +1,4 @@
-#= The Dual Arrhenius and Michealis-Menten (DAMM) model, Davidson et al. 2012
-using Unitful: R, L, mol, K, kJ, °C, m, g, cm, hr, mg, s, μmol
-using UnitfulMoles: molC
-using Unitful, UnitfulMoles
-@compound CO₂
-include("constants.jl")
-=#
+# The Dual Arrhenius and Michealis-Menten (DAMM) model, Davidson et al. 2012
 
 """
     DAMM(x::VecOrMat{<: Real}, p::NTuple{6, Float64})

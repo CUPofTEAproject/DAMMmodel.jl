@@ -5,6 +5,7 @@ version = "0.1.10"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"
 GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
 LsqFit = "2fda8390-95c7-5789-9bda-21331edee243"
 SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
@@ -21,6 +22,7 @@ UnicodeFun = "0.4.1"
 Unitful = "1.10.1"
 UnitfulMoles = "0.1.1"
 julia = "1.7"
+DocStringExtensions = "0.8.6"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

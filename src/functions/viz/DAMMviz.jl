@@ -1,25 +1,3 @@
-#=
-using GLMakie, SparseArrays, UnicodeFun
-using Unitful: R, L, mol, K, kJ, °C, m, g, cm, hr, mg, s, μmol
-using UnitfulMoles: molC
-using Unitful, UnitfulMoles
-@compound CO₂
-include("/home/alexis/MyPackages/DAMMmodel/src/functions/maths/DAMM.jl")
-include("/home/alexis/MyPackages/DAMMmodel/src/constructors/constants.jl")
-
-Checkbox list for v0.1.2:
-[] sliders layout: left aligned
-[x] Rsoil value changing interactively
-[] Rsoil text color changing interactively (maybe not: can't see yellow!)
-[] Rsoil text position (need to think where would be best)
-[x] vertical and horizontal lines in 2D plots, going from axes to the point, color = Rs
-[x] same lines as 2D plots on the 3D ax
-[] theta needs to be forced to two decimal to avoid auto position problem
-[] bugfix: porositity when increase slider value
-[x] lines parallel to axis on 3D plot, equal to current Ts, theta, Rs, + line to dot, colored by value
-[] Only substrate limitation and only oxygen limitation on 2D plot, as in Pallandt et al. supplement
-=#
-
 """
     DAMMviz()
 
