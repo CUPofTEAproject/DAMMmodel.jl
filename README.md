@@ -4,14 +4,15 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://CUPofTEAproject.github.io/DAMMmodel.jl/dev)
 [![Coverage](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl)
 
-**DAMMmodel estimates respiration CO<sub>2</sub> efflux as a function of soil temperature and soil moisture.**
+**DAMMmodel estimates respired CO<sub>2</sub> efflux as a function of soil temperature (T<sub>s</sub>) and soil moisture (&theta;).**
 
 ## Installation
 
 Install with the Julia package manager [Pkg](https://pkgdocs.julialang.org/), just like any other registered Julia package:
 
 ```jl
-pkg> add DAMMmodel  # Press ']' to enter the Pkg REPL mode.
+julia> ]
+pkg> add DAMMmodel
 ```
 or
 ```jl
@@ -20,12 +21,10 @@ julia> using Pkg; Pkg.add("DAMMmodel")
 
 ## Usage
 
-This package models respiration CO<sub>2</sub> flux as a function of soil temperature and soil moisture, using 
+This package models respiration (CO<sub>2</sub> efflux, e.g., soil respiration (R<sub>s</sub>)) as a function of soil temperature (T<sub>s</sub>) and soil moisture (&theta;), using 
 the [Dual Arrhenius and Michaelis-Menten](https://doi.org/10.1111/j.1365-2486.2011.02546.x) kinetics model (2012). 
 
-To install, just type `]add DAMMmodel` in a Julia REPL. 
-
-The package contains three functions: `DAMM`, `qbin`, and `fitDAMM`. 
+The package contains five functions: `DAMMviz`, `DAMM`, `DAMMfit`, `DAMMmat`, and `DAMMplot`. 
 
 ### Examples
 #### DAMMviz
