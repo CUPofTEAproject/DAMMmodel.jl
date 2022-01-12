@@ -21,6 +21,7 @@ julia> DAMM(x, p)
 ```
 """
 function DAMM(x::VecOrMat{<: Real}, p::NTuple{6, Float64})
+@compound CO₂
 # Independent variables
   Tₛ = x[:, 1]°C # Soil temperature
   Tₛ = Tₛ .|> K # Tₛ in Kelvin
