@@ -1,7 +1,7 @@
 name = "DAMMmodel"
 uuid = "7af7f183-cd03-4039-bf6b-67ea3eb1648d"
 authors = ["Alexandre A. Renchon"]
-version = "0.1.8"
+version = "0.1.9"
 
 [deps]
 DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
