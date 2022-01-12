@@ -4,10 +4,10 @@ julia_version = "1.7.1"
 manifest_format = "2.0"
 
 [[deps.AbstractFFTs]]
-deps = ["LinearAlgebra"]
-git-tree-sha1 = "485ee0867925449198280d4af84bdb46a2a404d0"
+deps = ["ChainRulesCore", "LinearAlgebra"]
+git-tree-sha1 = "6f1d9bc1c08f9f4a8fa92e3ea3cb50153a1b40d4"
 uuid = "621f4979-c628-5d54-868e-fcf4e3e8185c"
-version = "1.0.1"
+version = "1.1.0"
 
 [[deps.AbstractTrees]]
 git-tree-sha1 = "03e0550477d86222521d254b741d470ba17ea0b5"
@@ -31,9 +31,9 @@ uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
 
 [[deps.ArrayInterface]]
 deps = ["Compat", "IfElse", "LinearAlgebra", "Requires", "SparseArrays", "Static"]
-git-tree-sha1 = "1ee88c4c76caa995a885dc2f22a5d548dfbbc0ba"
+git-tree-sha1 = "d0d82f1c0b651173a4f839d84f662d03f3417740"
 uuid = "4fba245c-0d91-5ea0-9b3e-6abc04ee57a9"
-version = "3.2.2"
+version = "4.0.0"
 
 [[deps.Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
@@ -90,9 +90,9 @@ version = "0.4.0"
 
 [[deps.ColorSchemes]]
 deps = ["ColorTypes", "Colors", "FixedPointNumbers", "Random"]
-git-tree-sha1 = "a851fec56cb73cfdf43762999ec72eff5b86882a"
+git-tree-sha1 = "6b6f04f93710c71550ec7e16b650c1b9a612d0b6"
 uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
-version = "3.15.0"
+version = "3.16.0"
 
 [[deps.ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
@@ -220,10 +220,9 @@ uuid = "5ae413db-bbd1-5e63-b57d-d24a61df00f5"
 version = "2.2.3+0"
 
 [[deps.EllipsisNotation]]
-deps = ["ArrayInterface"]
-git-tree-sha1 = "3fe985505b4b667e1ae303c9ca64d181f09d5c05"
+git-tree-sha1 = "18ee049accec8763be17a933737c1dd0fdf8673a"
 uuid = "da5c29d0-fa7d-589e-88eb-ea29b0a81949"
-version = "1.1.3"
+version = "1.0.0"
 
 [[deps.Expat_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -269,9 +268,9 @@ version = "0.12.7"
 
 [[deps.FiniteDiff]]
 deps = ["ArrayInterface", "LinearAlgebra", "Requires", "SparseArrays", "StaticArrays"]
-git-tree-sha1 = "8b3c09b56acaf3c0e581c66638b85c8650ee9dca"
+git-tree-sha1 = "b374f22e8565a01d6e5db1e8640c3c5e3fe7d564"
 uuid = "6a86dc24-6348-571c-b903-95158fe2bd41"
-version = "2.8.1"
+version = "2.9.0"
 
 [[deps.FixedPointNumbers]]
 deps = ["Statistics"]
@@ -733,9 +732,9 @@ uuid = "05823500-19ac-5b8b-9628-191a04bc5112"
 
 [[deps.OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "15003dcb7d8db3c6c857fda14891a539a8f2705a"
+git-tree-sha1 = "648107615c15d4e09f7eca16307bc821c1f718d8"
 uuid = "458c3c95-2e84-50aa-8efc-19380b2a3a95"
-version = "1.1.10+0"
+version = "1.1.13+0"
 
 [[deps.OpenSpecFun_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
@@ -890,9 +889,9 @@ version = "0.1.3"
 
 [[deps.Requires]]
 deps = ["UUIDs"]
-git-tree-sha1 = "8f82019e525f4d5c669692772a6f4b0a58b06a6a"
+git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
-version = "1.2.0"
+version = "1.3.0"
 
 [[deps.Rmath]]
 deps = ["Random", "Rmath_jll"]
@@ -910,9 +909,9 @@ version = "0.3.0+0"
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 
 [[deps.SIMD]]
-git-tree-sha1 = "9ba33637b24341aba594a2783a502760aa0bff04"
+git-tree-sha1 = "39e3df417a0dd0c4e1f89891a281f82f5373ea3b"
 uuid = "fdea26ae-647d-5447-a871-4b548cad5224"
-version = "3.3.1"
+version = "3.4.0"
 
 [[deps.ScanByte]]
 deps = ["Libdl", "SIMD"]
@@ -984,9 +983,9 @@ version = "0.1.1"
 
 [[deps.Static]]
 deps = ["IfElse"]
-git-tree-sha1 = "7f5a513baec6f122401abfc8e9c074fdac54f6c1"
+git-tree-sha1 = "b4912cd034cdf968e06ca5f943bb54b17b97793a"
 uuid = "aedffcd0-7271-4cad-89d0-dc628f76c6d3"
-version = "0.4.1"
+version = "0.5.1"
 
 [[deps.StaticArrays]]
 deps = ["LinearAlgebra", "Random", "Statistics"]
@@ -1088,9 +1087,9 @@ version = "1.10.1"
 
 [[deps.UnitfulMoles]]
 deps = ["Unitful"]
-git-tree-sha1 = "0ce82f066f57a9c2dd00ee5c47c9a3677be61e70"
+git-tree-sha1 = "cf6ae3461c3408332de9ac1253dc81600348a994"
 uuid = "999f2bd7-36bf-5ba7-9bc1-c9473aa75374"
-version = "0.1.0"
+version = "0.1.1"
 
 [[deps.WoodburyMatrices]]
 deps = ["LinearAlgebra", "SparseArrays"]
