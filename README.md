@@ -4,7 +4,7 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://CUPofTEAproject.github.io/DAMMmodel.jl/dev)
 [![Coverage](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl)
 
-**DAMMmodel estimates respiration CO2 efflux as a function of soil temperature and soil moisture.**
+**DAMMmodel estimates respiration CO<sub>2</sub> efflux as a function of soil temperature and soil moisture.**
 
 ## Installation
 
@@ -20,7 +20,7 @@ julia> using Pkg; Pkg.add("DAMMmodel")
 
 ## Usage
 
-This package models respiration CO2 flux as a function of soil temperature and soil moisture, using 
+This package models respiration CO<sub>2</sub> flux as a function of soil temperature and soil moisture, using 
 the [Dual Arrhenius and Michaelis-Menten](https://doi.org/10.1111/j.1365-2486.2011.02546.x) kinetics model (2012). 
 
 To install, just type `]add DAMMmodel` in a Julia REPL. 
@@ -28,6 +28,14 @@ To install, just type `]add DAMMmodel` in a Julia REPL.
 The package contains three functions: `DAMM`, `qbin`, and `fitDAMM`. 
 
 ### Examples
+#### DAMMviz
+    DAMMviz()
+Interactive plot of the DAMM model
+
+```jl
+julia> DAMMviz()
+```
+![DAMMviz_v0 1 2](https://user-images.githubusercontent.com/22160257/149199698-0a858290-475f-4d49-b724-d07dd042e377.gif)
 #### DAMM
     DAMM(x, p)
 Calculate respiration as a function of soil temperature and moisture.
@@ -91,13 +99,7 @@ julia> R = [1.0, 1.2, 1.5, 2.0, 2.7, 3.8, 4.9, 6.7, 4.1, 2.0, 0.4]
 julia> r = 10
 julia> fig = DAMMplot(Ts, θ, R, r)
 ```
-#### DAMMviz
-    DAMMviz()
-Interactive plot of the DAMM model
-
-```jl
-julia> DAMMviz()
-```
+![DAMMplot](https://user-images.githubusercontent.com/22160257/149199780-74784291-3731-41d2-b087-2cb87b2d0efb.png)
 #### qbin
     qbin(x, y, z, n)
 Bins x into n quantiles, each xbin into n quantiles of y, return z quantile
