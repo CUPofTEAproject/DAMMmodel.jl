@@ -22,10 +22,7 @@ include(joinpath("functions", "viz", "DAMMviz.jl"))
 include(joinpath("functions", "maths", "qbins.jl"))
 export DAMM, DAMMfit, DAMMmat, DAMMplot, DAMMviz, qbins, sDAMMmat, sDAMMmatq
 
-# Allow precompile, and register mol units with u_str macro.
-const localunits = Unitful.basefactors
 function __init__()
-    merge!(Unitful.basefactors, localunits)
     Unitful.register(DAMMmodel)
 end
 
