@@ -41,12 +41,12 @@ Calculate respiration as a function of soil temperature and moisture.
 
 ```jl
 julia> Ts = [18.0, 22.0] # 2 values soil temperature [°C]
-julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3m-3]
+julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3 m-3]
 julia> x = hcat(Ts, SWC)
-julia> p = [1e8, 62, 3.46e-8, 2.0e-3, 0.4, 0.0125] # α, Ea, kMsx, kMO2, Sxtot
+julia> p = (1e9, 64.0, 3.46e-8, 2.0e-3, 0.4, 0.0125) # α, Ea, kMsx, kMO2, Sxtot
 julia> DAMM(x, p)
-  1.33
-  2.33
+  1.6
+  2.8
 ```
 #### DAMMfit
     DAMMfit(Ind_var, Resp, poro_val)
@@ -54,7 +54,7 @@ fit the DAMM model parameters to data.
 
 ```jl
 julia> Ts = [19.0, 22.0] # 2 values soil temperature [°C]
-julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3m-3]
+julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3 m-3]
 julia> Resp = [2, 4] # respiration observation
 julia> Ind_var = hcat(Ts, SWC)
 julia> p = DAMMfit(Ind_var, Resp, 0.4) # fitted params α, Ea, kMsx, kMO2, Sxtot
