@@ -4,6 +4,7 @@
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://CUPofTEAproject.github.io/DAMMmodel.jl/dev)
 [![Coverage](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl)
 [![DAMMmodel Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/DAMMmodel)](https://pkgs.genieframework.com?packages=DAMMmodel)
+![version](https://img.shields.io/badge/version-0.1.10-blue)
 
 **Estimates CO<sub>2</sub> efflux (e.g., soil respiration (R<sub>s</sub>), [&mu;mol m<sup>-2</sup> s<sup>-1</sup>]) as a function of temperature (e.g., soil temperature (T<sub>s</sub>), [°C]) and soil moisture (&theta;, [m<sup>3</sup> m<sup>-3</sup>]).**
 
