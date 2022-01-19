@@ -6,7 +6,6 @@
 # ignore VIM temp files
 *~
 *swp
-src/functions/maths/DAMM - Copy.jl
-src/functions/viz/_BA.jl
-.vscode/settings.json
-main.jl
+
+# ignore vscode files
+.vscode/
