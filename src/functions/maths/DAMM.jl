@@ -1,14 +1,14 @@
 # The Dual Arrhenius and Michealis-Menten (DAMM) model, Davidson et al. 2012
 
 """
-    DAMM(x::VecOrMat{<: Real}, p::NTuple{6, Float64})
+    DAMM(x::VecOrMat{<: Real}, p::NTuple{7, Float64})
 Calculate respiration as a function of soil temperature and moisture.
 # Examples
 ```julia-repl
 julia> Tₛ = [18.0, 22.0] # soil temperature [°C]
 julia> θ = [0.35, 0.22] # soil moisture [m³ m⁻³]
 julia> x = hcat(Tₛ, θ)
-julia> p = (1e9, 64.0, 3.46e-8, 2.0e-3, 0.4, 0.0125) # αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, Sxₜₒₜ
+julia> p = (1e9, 64.0, 3.46e-8, 2.0e-3, 0.4, 0.0125, 1.0) # αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, Sxₜₒₜ, Q10kM
 julia> DAMM(x, p)
   1.6 # μmolCO₂ m⁻² s⁻¹ 
   2.8 # μmolCO₂ m⁻² s⁻¹
