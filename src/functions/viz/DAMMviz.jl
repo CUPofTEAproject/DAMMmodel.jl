@@ -15,7 +15,7 @@ function DAMMviz()
   fig = Figure(resolution = (2200, 1300), figure_padding = 30)
   ax3D = Axis3(fig[1, 2])
 
-  texts = Array{Label}(undef, 8);
+  texts = Array{Label}(undef, 9);
   sliderranges = [
     1e8:1e8:1e9, # α or p[1]  
     58.0:1.0:70.0, # Ea p[2]
@@ -24,7 +24,8 @@ function DAMMviz()
     0.3:0.05:0.8, # porosity p[5]
     0.01:0.01:0.1, # sx, p[6]
     0:2:40, # Ts
-    0:0.02:0.8 # θ
+    0:0.02:0.8, # θ
+    0.7:0.1:3.0 # Q10Km
    ]; #
   sliders = [Slider(fig, range = sr) for sr in sliderranges];
   texts[1] = Label(fig, text= lift(X->string("Parameters\n", to_latex("\\alpha_{sx}"), " = ", X, to_latex(" (mgC cm^{-3} h^{-1})")), sliders[1].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
@@ -35,6 +36,7 @@ function DAMMviz()
   texts[6] = Label(fig, text= lift(X->string(to_latex("S_x"), " = ", X, to_latex(" (gC cm^{-3})")), sliders[6].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
   texts[7] = Label(fig, text= lift(X->string("Drivers\n", to_latex("T_s"), " = ", X, to_latex(" (°C)")), sliders[7].value), justification = :left, halign = :left, textsize=30, color = :green, width = Auto(false));
   texts[8] = Label(fig, text= lift(X->string(to_latex("θ"), " = ", round(X, sigdigits = 3), to_latex(" (m^3 m^{-3})")), sliders[8].value), justification = :left, halign = :left, textsize=30, color = :green, width = Auto(false));
+  texts[9] = Label(fig, text= lift(X->string(to_latex("Q_{10} of kM_{sx}"), " = ", X, to_latex(" (-)")), sliders[9].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
 
   αsx = sliders[1].value
   set_close_to!(sliders[1], 7e8)
@@ -52,6 +54,8 @@ function DAMMviz()
   set_close_to!(sliders[7], 28)
   θ = sliders[8].value 
   set_close_to!(sliders[8], 0.4)
+  Q10Km = sliders[9].value 
+  set_close_to!(sliders[9], 1.0)
 
   r = 50
   x = collect(range(0, length=r, stop=40)) # T axis, °C from min to max
@@ -62,13 +66,13 @@ function DAMMviz()
   Y2 = @lift(repeat($y, outer=r)) # M values to fit DAMM on
   xy = @lift(hcat(X2, $Y2)) # T and M matrix to create DAMM matrix 
 
-  params = @lift(($αsx, $Ea, $kMsx, $kMo2, $porosity, $sx))
+  params = @lift(($αsx, $Ea, $kMsx, $kMo2, $porosity, $sx, $Q10Km))
   DAMM_Matrix = @lift(Matrix(sparse(X, Y, DAMM($xy, $params))))
   Rₛ = @lift(DAMM(hcat($Ts, $θ), $params))
   Rₛᵣ = @lift(round.($Rₛ, sigdigits = 3)[1])
 
   vertical_sublayout = fig[1, 1] = hgrid!(vgrid!(
-  Iterators.flatten(zip(texts[1:6], sliders[1:6]))...;
+  Iterators.flatten(zip(texts[vcat(1:6, 9)], sliders[vcat(1:6, 9)]))...;
    ),  #width = 200, height = 1000); 
   #vertical_sublayout2 = fig[1, 2] = 
   vgrid!(

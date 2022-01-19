@@ -14,7 +14,7 @@ julia> DAMM(x, p)
   2.8 # μmolCO₂ m⁻² s⁻¹
 ```
 """
-function DAMM(x::VecOrMat{<: Real}, p::NTuple{6, Float64})
+function DAMM(x::VecOrMat{<: Real}, p::NTuple{7, Float64})
 # Independent variables
   Tₛ = x[:, 1]°C # Soil temperature
   Tₛ = Tₛ .|> K # Tₛ in Kelvin
@@ -26,11 +26,15 @@ function DAMM(x::VecOrMat{<: Real}, p::NTuple{6, Float64})
   kMₒ₂ = p[4]L*L^-1 # Michaelis constant for O₂, L L⁻¹
   porosity = p[5] # 1 - soil buld density / soil particle density
   Sxₜₒₜ = p[6]g*cm^-3 # Total soil carbon, gC cm⁻³
-# DAMM model
+  Q10Km = p[7]
+  # DAMM model
+  Tref = 293.15K
   Vmax = @. αₛₓ * exp(-Eaₛₓ/(R * Tₛ)) # Maximum potential rate of respiration
   Sₓ = @. pₛₓ * Sxₜₒₜ * Dₗᵢ * θ^3 # All soluble substrate, gC cm⁻³
-  MMₛₓ = @. Sₓ / (kMₛₓ + Sₓ) # Availability of substrate factor, 0-1 
-  O₂ = @. Dₒₐ * O₂ₐ * ((porosity - θ)^(4/3)) # Oxygen concentration
+  MMₛₓ = @. Sₓ / (kMₛₓ * Q10Km^(ustrip(Tₛ - Tref)/10.0) + Sₓ) # Availability of substrate factor, 0-1 
+  airfilled_porosity = porosity .- θ
+  airfilled_porosity[airfilled_porosity .< 0.0] .= NaN
+  O₂ = @. Dₒₐ * O₂ₐ * (airfilled_porosity^(4/3)) # Oxygen concentration
   MMₒ₂ = @. O₂ / (kMₒ₂ + O₂) # Oxygen limitation factor, 0-1
   Rₛₘ = @. Vmax * MMₛₓ * MMₒ₂ # Respiration, mg C cm⁻³ hr⁻¹
   Rₛₘₛ = @. Rₛₘ * Eₛ # Respiration, effective depth 10 cm, mg C cm⁻² hr⁻¹ 
