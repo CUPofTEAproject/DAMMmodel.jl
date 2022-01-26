@@ -38,14 +38,14 @@ julia> DAMMviz()
 ```
 ![DAMMviz_v0 1 2](https://user-images.githubusercontent.com/22160257/149199698-0a858290-475f-4d49-b724-d07dd042e377.gif)
 #### DAMM
-    DAMM(x, p)
+    DAMM(x::VecOrMat{<: Real}, p::NTuple{7, Float64})
 Calculate respiration as a function of soil temperature and moisture.
 
 ```jl
-julia> Ts = [18.0, 22.0] # 2 values soil temperature [°C]
-julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3 m-3]
-julia> x = hcat(Ts, SWC)
-julia> p = (1e9, 64.0, 3.46e-8, 2.0e-3, 0.4, 0.0125) # α, Ea, kMsx, kMO2, Sxtot
+julia> Tₛ = [18.0, 22.0] # 2 values soil temperature [°C]
+julia> θ = [0.35, 0.22] # 2 values of soil moisture [m³ m⁻³]
+julia> x = hcat(Tₛ, θ)
+julia> p = (1e9, 64.0, 3.46e-8, 2.0e-3, 0.4, 0.0125, 1.0) # αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, Sxₜₒₜ, Q10kMₛₓ
 julia> DAMM(x, p)
   1.6
   2.8
@@ -55,50 +55,51 @@ julia> DAMM(x, p)
 fit the DAMM model parameters to data. 
 
 ```jl
-julia> Ts = [19.0, 22.0] # 2 values soil temperature [°C]
-julia> SWC = [0.35, 0.22] # 2 values of soil moisture [m3 m-3]
-julia> Resp = [2, 4] # respiration observation
-julia> Ind_var = hcat(Ts, SWC)
-julia> p = DAMMfit(Ind_var, Resp, 0.4) # fitted params α, Ea, kMsx, kMO2, Sxtot
-  3.533e8
- 63.604
-  2.489e-10
-  0.005
+julia> Tₛ = [19.0, 22.0] # 2 values soil temperature [°C]
+julia> θ = [0.35, 0.22] # 2 values of soil moisture [m³ m⁻³]
+julia> Resp = [2.2, 2.8] # respiration observation
+julia> Ind_var = hcat(Tₛ, θ)
+julia> p = DAMMfit(Ind_var, Resp, 0.4) # fitted params αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, Sxₜₒₜ, Q10kMₛₓ
+  10e8
+  64
+  9.6e-7
+  1.3e-4
   0.4
   0.02
+  1.0
 julia> DAMM(Ind_var, p)
-  2
-  4
+  2.2
+  2.8
 ```
 #### DAMMmat
-    DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)
+    DAMMmat(Tₛ::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)
 Generates a matrix of DAMM output for gridded inputs x and y Inputs: 
-soil temperature (Ts), soil moisture (θ), respiration (R), resolution (r)
+soil temperature (Tₛ), soil moisture (θ), respiration (R), resolution (r)
 
 ```jl
-julia> Ts = collect(15.0:2.5:40.0)
+julia> Tₛ = collect(15.0:2.5:40.0)
 julia> θ = collect(0.2:0.05:0.7)
 julia> R = [1.0, 1.2, 1.5, 2.0, 2.7, 3.8, 4.9, 6.7, 4.1, 2.0, 0.4]
 julia> r = 10
-julia> poro_val, params, x, y, DAMM_Matrix = DAMMmat(Ts, θ, R, r)
+julia> poro_val, params, x, y, DAMM_Matrix = DAMMmat(Tₛ, θ, R, r)
 ```
-    DAMMmat(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64, n::Int64)
+    DAMMmat(Tₛ::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64, n::Int64)
 Bin data by n quantiles
 
 ```jl
 julia> n = 4
-julia> poro_val, Tmed, θmed, Rmed, params, x, y, DAMM_Matrix = DAMMmat(Ts, θ, R, r, n)
+julia> poro_val, Tmed, θmed, Rmed, params, x, y, DAMM_Matrix = DAMMmat(Tₛ, θ, R, r, n)
 ```
 #### DAMMplot
-    DAMMplot(Ts::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)
+    DAMMplot(Tₛ::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)
 Plot scatter of data and fitted DAMM surface
 
 ```jl
-julia> Ts = collect(15.0:2.5:40.0)
+julia> Tₛ = collect(15.0:2.5:40.0)
 julia> θ = collect(0.2:0.05:0.7)
 julia> R = [1.0, 1.2, 1.5, 2.0, 2.7, 3.8, 4.9, 6.7, 4.1, 2.0, 0.4]
 julia> r = 10
-julia> fig = DAMMplot(Ts, θ, R, r)
+julia> fig = DAMMplot(Tₛ, θ, R, r)
 ```
 ![DAMMplot](https://user-images.githubusercontent.com/22160257/149199780-74784291-3731-41d2-b087-2cb87b2d0efb.png)
 #### qbin
