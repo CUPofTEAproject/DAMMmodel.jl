@@ -12,7 +12,7 @@ function DAMMviz()
   fontsize_theme = Theme(fontsize = 30, font = "JuliaMono")
   set_theme!(fontsize_theme)
 
-  fig = Figure(resolution = (2200, 1300), figure_padding = 30)
+  fig = Figure(resolution = (2200, 1600), figure_padding = 30)
   ax3D = Axis3(fig[1, 2])
 
   texts = Array{Label}(undef, 9);
