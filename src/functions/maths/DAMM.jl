@@ -27,13 +27,13 @@ function DAMM(x::VecOrMat{<: Real}, p::NTuple{7, Float64})
   porosity = p[5] # 1 - soil buld density / soil particle density
   Sxₜₒₜ = p[6]g*cm^-3 # Total soil carbon, gC cm⁻³
   Q10Km = p[7]
-  # DAMM model
+# DAMM model
   Tref = 293.15K
   Vmax = @. αₛₓ * exp(-Eaₛₓ/(R * Tₛ)) # Maximum potential rate of respiration
   Sₓ = @. pₛₓ * Sxₜₒₜ * Dₗᵢ * θ^3 # All soluble substrate, gC cm⁻³
   MMₛₓ = @. Sₓ / (kMₛₓ * Q10Km^(ustrip(Tₛ - Tref)/10.0) + Sₓ) # Availability of substrate factor, 0-1 
-  airfilled_porosity = porosity .- θ
-  airfilled_porosity[airfilled_porosity .< 0.0] .= NaN
+  porosityₐᵢᵣ = porosity .- θ # Air filled porosity
+  porosityₐᵢᵣ[porosityₐᵢᵣ .< 0.0] .= NaN # Moisture cannot be greater than porosity
   O₂ = @. Dₒₐ * O₂ₐ * (airfilled_porosity^(4/3)) # Oxygen concentration
   MMₒ₂ = @. O₂ / (kMₒ₂ + O₂) # Oxygen limitation factor, 0-1
   Rₛₘ = @. Vmax * MMₛₓ * MMₒ₂ # Respiration, mg C cm⁻³ hr⁻¹
