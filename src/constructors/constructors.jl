@@ -7,7 +7,7 @@ $(TYPEDFIELDS)
 """
 struct sDAMMmat
   porosity::Float64
-  params::NTuple{6, Float64}
+  params::NTuple{7, Float64}
   x::Array{Float64, 1}
   y::Array{Float64, 1}
   DAMM_Matrix::Array{Float64, 2}
@@ -25,7 +25,7 @@ struct sDAMMmatq
   Tmed::Array{Float64, 1}
   θmed::Array{Float64, 1}
   Rmed::Array{Float64, 1}
-  params::NTuple{6, Float64}
+  params::NTuple{7, Float64}
   x::Array{Float64, 1}
   y::Array{Float64, 1}
   DAMM_Matrix::Array{Float64, 2}

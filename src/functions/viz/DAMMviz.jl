@@ -179,7 +179,7 @@ function DAMMviz()
   rowsize!(fig.layout, 1, Relative(1/2))
   #resize_to_layout!(fig)
 
-  supertitle = Label(fig[0, :], "Dual Arrhenius and Michaelis-Menten (DAMM) interactive visualisation, v0.1.2", textsize = 40)
+  supertitle = Label(fig[0, :], "Dual Arrhenius and Michaelis-Menten (DAMM) interactive visualisation, v0.1.3", textsize = 40)
 
   cb.alignmode = Mixed(right = 0)
   #set_theme!(figure_padding = 30)
