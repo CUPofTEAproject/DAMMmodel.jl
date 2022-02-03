@@ -34,7 +34,7 @@ function DAMM(x::VecOrMat{<: Real}, p::NTuple{7, Float64})
   MMₛₓ = @. Sₓ / (kMₛₓ * Q10Km^(ustrip(Tₛ - Tref)/10.0) + Sₓ) # Availability of substrate factor, 0-1 
   porosityₐᵢᵣ = porosity .- θ # Air filled porosity
   porosityₐᵢᵣ[porosityₐᵢᵣ .< 0.0] .= NaN # Moisture cannot be greater than porosity
-  O₂ = @. Dₒₐ * O₂ₐ * (airfilled_porosity^(4/3)) # Oxygen concentration
+  O₂ = @. Dₒₐ * O₂ₐ * (porosityₐᵢᵣ^(4/3)) # Oxygen concentration
   MMₒ₂ = @. O₂ / (kMₒ₂ + O₂) # Oxygen limitation factor, 0-1
   Rₛₘ = @. Vmax * MMₛₓ * MMₒ₂ # Respiration, mg C cm⁻³ hr⁻¹
   Rₛₘₛ = @. Rₛₘ * Eₛ # Respiration, effective depth 10 cm, mg C cm⁻² hr⁻¹ 
