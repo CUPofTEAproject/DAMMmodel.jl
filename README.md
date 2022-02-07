@@ -26,7 +26,7 @@ julia> using Pkg; Pkg.add("DAMMmodel")
 This package models respiration (CO<sub>2</sub> efflux, e.g., soil respiration (R<sub>s</sub>)) as a function of soil temperature (T<sub>s</sub>) and soil moisture (&theta;), using 
 the [Dual Arrhenius and Michaelis-Menten](https://doi.org/10.1111/j.1365-2486.2011.02546.x) kinetics model (2012). 
 
-The package contains five functions: `DAMMviz`, `DAMM`, `DAMMfit`, `DAMMmat`, and `DAMMplot`. 
+The package contains six functions: `DAMMviz`, `DAMMfdata`, `DAMM`, `DAMMfit`, `DAMMmat`, and `DAMMplot`. 
 
 ### Examples
 #### DAMMviz
@@ -37,39 +37,71 @@ Interactive plot of the DAMM model
 julia> DAMMviz()
 ```
 ![DAMMviz_v0 1 2](https://user-images.githubusercontent.com/22160257/149199698-0a858290-475f-4d49-b724-d07dd042e377.gif)
-#### DAMM
-    DAMM(x::VecOrMat{<: Real}, p::NTuple{7, Float64})
-Calculate respiration as a function of soil temperature and moisture.
+#### DAMMfdata
+    DAMMfdata(n)
+Generates a DataFrame of n fake data Tₛ, θ and Rₛ 
 
 ```jl
-julia> Tₛ = [18.0, 22.0] # 2 values soil temperature [°C]
-julia> θ = [0.35, 0.22] # 2 values of soil moisture [m³ m⁻³]
-julia> x = hcat(Tₛ, θ)
-julia> p = (1e9, 64.0, 3.46e-8, 2.0e-3, 0.4, 0.0125, 1.0) # αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, Sxₜₒₜ, Q10kMₛₓ
-julia> DAMM(x, p)
-  1.6
-  2.8
+julia> DAMMfdata(5)
+5×3 DataFrame
+ Row │ Tₛ       θ        Rₛ      
+     │ Float64  Float64  Float64 
+─────┼───────────────────────────
+   1 │    10.8      0.3  2.04327
+   2 │    31.5      0.1  7.8925
+   3 │    38.7      0.7  1.6
+   4 │    35.7      0.3  7.38025
+   5 │    21.9      0.2  3.0012
+```
+#### DAMM
+    DAMM(x::VecOrMat{<: Real}, p::NTuple{7, Float64})
+Calculate respiration as a function of soil temperature (Tₛ) and moisture (θ).
+
+```jl
+julia> df = DAMMfdata(100) # generates a fake dataset
+100×3 DataFrame
+ Row │ Tₛ       θ        Rₛ        
+     │ Float64  Float64  Float64   
+─────┼─────────────────────────────
+   1 │    15.5      0.3   1.72216
+   2 │    22.3      0.6   1.8213
+  ⋮  │    ⋮        ⋮         ⋮
+  99 │     9.5      0.2   0.223677
+ 100 │     6.6      0.6   0.730627
+julia> fp # parameters: αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, Sxₜₒₜ, Q10kM
+(1.0e9, 64.0, 3.46e-8, 0.002, 0.7, 0.02, 1.0)
+julia> DAMM(hcat(df.Tₛ, df.θ), fp) # μmolCO₂ m⁻² s⁻¹
+100-element Vector{Float64}:
+ 6.023429035220588
+ 0.9298933641647085
+ ⋮
+ 0.8444248717855868
+ 3.805243237387702
 ```
 #### DAMMfit
-    DAMMfit(Ind_var, Resp, poro_val)
+    DAMMfit(x::VecOrMat{<: Real}, Rₛ::Vector{Float64}, poro_val::Float64)
 fit the DAMM model parameters to data. 
 
 ```jl
-julia> Tₛ = [19.0, 22.0] # 2 values soil temperature [°C]
-julia> θ = [0.35, 0.22] # 2 values of soil moisture [m³ m⁻³]
-julia> Resp = [2.2, 2.8] # respiration observation
-julia> Ind_var = hcat(Tₛ, θ)
-julia> p = DAMMfit(Ind_var, Resp, 0.4) # fitted params αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, Sxₜₒₜ, Q10kMₛₓ
-  10e8
-  64
-  9.6e-7
-  1.3e-4
-  0.4
-  0.02
-  1.0
-julia> DAMM(Ind_var, p)
-  2.2
-  2.8
+julia> df = DAMMfdata(100) # generates a fake dataset
+100×3 DataFrame
+ Row │ Tₛ       θ        Rₛ        
+     │ Float64  Float64  Float64   
+─────┼─────────────────────────────
+   1 │    27.1      0.3   4.345
+   2 │    38.7      0.6  12.0106
+  ⋮  │    ⋮        ⋮         ⋮
+  99 │    18.6      0.5   0.894257
+ 100 │    19.4      0.4   3.79532
+julia> p = DAMMfit(hcat(df.Tₛ, df.θ), df.Rₛ, 0.7) 
+(2.034002955272664e10, 71.65411256289629, 9.903541279858033e-8, 0.003688664956456453, 0.7, 0.02, 1.0)
+julia> DAMM(hcat(df.Tₛ, df.θ), p)
+100-element Vector{Float64}:
+  4.233540174412755
+ 10.41149919818871
+  ⋮
+  1.746141124513421
+  1.9599317903590014
 ```
 #### DAMMmat
     DAMMmat(Tₛ::Array{Float64, 1}, θ::Array{Float64, 1}, R::Array{Float64, 1}, r::Int64)
