@@ -95,13 +95,20 @@ julia> poro_val, Tmed, θmed, Rmed, params, x, y, DAMM_Matrix = DAMMmat(Tₛ, θ
 Plot scatter of data and fitted DAMM surface
 
 ```jl
-julia> Tₛ = collect(15.0:2.5:40.0)
-julia> θ = collect(0.2:0.05:0.7)
-julia> R = [1.0, 1.2, 1.5, 2.0, 2.7, 3.8, 4.9, 6.7, 4.1, 2.0, 0.4]
-julia> r = 10
-julia> fig = DAMMplot(Tₛ, θ, R, r)
+julia> df = DAMMfdata(100)
+100×3 DataFrame
+ Row │ Tₛ       θ        Rₛ       
+     │ Float64  Float64  Float64  
+─────┼────────────────────────────
+   1 │    31.8      0.3  6.54735
+   2 │    14.6      0.3  3.49235
+  ⋮  │    ⋮        ⋮        ⋮
+  99 │    17.2      0.4  0.880441
+ 100 │     5.2      0.2  0.0
+julia> r = 50
+julia> fig = DAMMplot(df.Tₛ, df.θ, df.Rₛ, r)
 ```
-![DAMMplot](https://user-images.githubusercontent.com/22160257/149199780-74784291-3731-41d2-b087-2cb87b2d0efb.png)
+![DAMMplot_v0 1 14](https://user-images.githubusercontent.com/22160257/152836382-14beb21d-0df2-4801-a610-609cc00a1360.png)
 #### qbin
     qbin(x, y, z, n)
 Bins x into n quantiles, each xbin into n quantiles of y, return z quantile
