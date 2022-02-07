@@ -2,16 +2,30 @@
 
 """
     DAMM(x::VecOrMat{<: Real}, p::NTuple{7, Float64})
-Calculate respiration as a function of soil temperature and moisture.
+
+Calculate respiration as a function of soil temperature (Tₛ) and moisture (θ).
+
 # Examples
 ```julia-repl
-julia> Tₛ = [18.0, 22.0] # soil temperature [°C]
-julia> θ = [0.35, 0.22] # soil moisture [m³ m⁻³]
-julia> x = hcat(Tₛ, θ)
-julia> p = (1e9, 64.0, 3.46e-8, 2.0e-3, 0.4, 0.0125, 1.0) # αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, Sxₜₒₜ, Q10kM
-julia> DAMM(x, p)
-  1.6 # μmolCO₂ m⁻² s⁻¹ 
-  2.8 # μmolCO₂ m⁻² s⁻¹
+julia> df = DAMMfdata(100) # generates a fake dataset
+100×3 DataFrame
+ Row │ Tₛ       θ        Rₛ        
+     │ Float64  Float64  Float64   
+─────┼─────────────────────────────
+   1 │    15.5      0.3   1.72216
+   2 │    22.3      0.6   1.8213
+  ⋮  │    ⋮        ⋮         ⋮
+  99 │     9.5      0.2   0.223677
+ 100 │     6.6      0.6   0.730627
+julia> fp # parameters: αₛₓ, Eaₛₓ, kMₛₓ, kMₒ₂, Sxₜₒₜ, Q10kM
+(1.0e9, 64.0, 3.46e-8, 0.002, 0.7, 0.02, 1.0)
+julia> DAMM(hcat(df.Tₛ, df.θ), fp) # μmolCO₂ m⁻² s⁻¹
+100-element Vector{Float64}:
+ 6.023429035220588
+ 0.9298933641647085
+ ⋮
+ 0.8444248717855868
+ 3.805243237387702
 ```
 """
 function DAMM(x::VecOrMat{<: Real}, p::NTuple{7, Float64})
