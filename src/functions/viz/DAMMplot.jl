@@ -5,14 +5,14 @@ Plot scatter of data and fitted DAMM surface
 
 # Example
 ```julia-repl
-julia> Tₛ = collect(15.0:2.5:40.0)
-julia> θ = collect(0.2:0.05:0.7)
-julia> Rₛ = [1.0, 1.2, 1.5, 2.0, 2.7, 3.8, 4.9, 6.7, 4.1, 2.0, 0.4]
-julia> r = 10
-julia> fig = DAMMplot(Tₛ, θ, Rₛ, r)
+julia> df = DAMMfdata(100)
+julia> r = 50
+julia> fig = DAMMplot(df.Tₛ, df.θ, df.Rₛ, r)
 ```
 """
 function DAMMplot(Tₛ::Array{Float64, 1}, θ::Array{Float64, 1}, Rₛ::Array{Float64, 1}, r::Int64)
+  fontsize_theme = Theme(fontsize = 20, font = "JuliaMono")
+  set_theme!(fontsize_theme)
   fig = Figure()
   ax3D = Axis3(fig[1, 1])
   out = DAMMmat(Tₛ, θ, Rₛ, r)
