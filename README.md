@@ -2,7 +2,7 @@
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://CUPofTEAproject.github.io/DAMMmodel.jl/stable)
 [![DAMMmodel Downloads](https://shields.io/endpoint?url=https://pkgs.genieframework.com/api/v1/badge/DAMMmodel)](https://pkgs.genieframework.com?packages=DAMMmodel)
-![version](https://img.shields.io/badge/version-0.1.14-green)
+![version](https://img.shields.io/badge/version-0.1.15-green)
 <!--- [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://CUPofTEAproject.github.io/DAMMmodel.jl/dev) 
 [![Coverage](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/CUPofTEAproject/DAMMmodel.jl) --->
 
@@ -141,13 +141,13 @@ julia> r = 50
 julia> fig = DAMMplot(df.Tₛ, df.θ, df.Rₛ, r)
 ```
 ![DAMMplot_v0 1 14](https://user-images.githubusercontent.com/22160257/152836382-14beb21d-0df2-4801-a610-609cc00a1360.png)
-#### qbin
-    qbin(x, y, z, n)
+#### qbins
+    qbins(x, y, z, n)
 Bins x into n quantiles, each xbin into n quantiles of y, return z quantile
 
 ```jl
 julia> df = DataFrame(x=1:20, y=6:25, z=11:30)
-julia> xmed, ymed, zmed = qbin(df.T, df.M, df.R, 3)
+julia> xmed, ymed, zmed = qbins(df.T, df.M, df.R, 3)
   xmed = [9, 9, 9, 15, 15, 15, 21, 21, 21]
   ymed = [12, 14, 16, 19, 20.5, 22, 25, 27, 29]
   zmed = [2, 4, 6, 8.5, 10.5, 15, 17, 19]
