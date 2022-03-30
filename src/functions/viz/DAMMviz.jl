@@ -8,16 +8,16 @@ Interactive plot of the DAMM model
 julia> DAMMviz()
 ```
 """
-function DAMMviz()
-  fontsize_theme = Theme(fontsize = 30, font = "JuliaMono")
+function DAMMviz(;width = 2200, height = 1600, fontsize = 30)
+  fontsize_theme = Theme(fontsize = fontsize, font = "JuliaMono")
   set_theme!(fontsize_theme)
 
-  fig = Figure(resolution = (2200, 1600), figure_padding = 30)
+  fig = Figure(resolution = (width, height), figure_padding = 30)
   ax3D = Axis3(fig[1, 2])
 
   texts = Array{Label}(undef, 9);
   sliderranges = [
-    1e8:1e8:1e9, # α or p[1]  
+    1e8:1e8:1e9, # α or p[1]
     58.0:1.0:70.0, # Ea p[2]
     1e-9:1e-6:1e-5, # kMsx p[3]
     1e-4:1e-3:1e-2, # kMo2 p[4]
@@ -28,15 +28,15 @@ function DAMMviz()
     0.7:0.1:3.0 # Q10Km
    ]; #
   sliders = [Slider(fig, range = sr) for sr in sliderranges];
-  texts[1] = Label(fig, text= lift(X->string("Parameters\n", to_latex("\\alpha_{sx}"), " = ", X, to_latex(" (mgC cm^{-3} h^{-1})")), sliders[1].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
-  texts[2] = Label(fig, text= lift(X->string(to_latex("E_a"), " = ", X, to_latex(" (kJ mol^{-1})")), sliders[2].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
-  texts[3] = Label(fig, text= lift(X->string(to_latex("kM_{sx}"), " = ", round(X, sigdigits = 2), to_latex(" (gC cm^{-3})")), sliders[3].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
-  texts[4] = Label(fig, text= lift(X->string(to_latex("kM_{o2}"), " = ", X, to_latex(" (L L^{-1})")), sliders[4].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
-  texts[5] = Label(fig, text= lift(X->string(to_latex("Porosity"), " = ", X, to_latex(" (m^3 m^{-3})")), sliders[5].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
-  texts[6] = Label(fig, text= lift(X->string(to_latex("S_x"), " = ", X, to_latex(" (gC cm^{-3})")), sliders[6].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
-  texts[7] = Label(fig, text= lift(X->string("Drivers\n", to_latex("T_s"), " = ", X, to_latex(" (°C)")), sliders[7].value), justification = :left, halign = :left, textsize=30, color = :green, width = Auto(false));
-  texts[8] = Label(fig, text= lift(X->string(to_latex("θ"), " = ", round(X, sigdigits = 3), to_latex(" (m^3 m^{-3})")), sliders[8].value), justification = :left, halign = :left, textsize=30, color = :green, width = Auto(false));
-  texts[9] = Label(fig, text= lift(X->string(to_latex("Q_{10} of kM_{sx}"), " = ", X, to_latex(" (-)")), sliders[9].value), justification = :left, halign = :left, textsize=30, width = Auto(false));
+  texts[1] = Label(fig, text= lift(X->string("Parameters\n", to_latex("\\alpha_{sx}"), " = ", X, to_latex(" (mgC cm^{-3} h^{-1})")), sliders[1].value), justification = :left, halign = :left, fontsize = fontsize, width = Auto(false));
+  texts[2] = Label(fig, text= lift(X->string(to_latex("E_a"), " = ", X, to_latex(" (kJ mol^{-1})")), sliders[2].value), justification = :left, halign = :left, fontsize = fontsize, width = Auto(false));
+  texts[3] = Label(fig, text= lift(X->string(to_latex("kM_{sx}"), " = ", round(X, sigdigits = 2), to_latex(" (gC cm^{-3})")), sliders[3].value), justification = :left, halign = :left, fontsize = fontsize, width = Auto(false));
+  texts[4] = Label(fig, text= lift(X->string(to_latex("kM_{o2}"), " = ", X, to_latex(" (L L^{-1})")), sliders[4].value), justification = :left, halign = :left, fontsize = fontsize, width = Auto(false));
+  texts[5] = Label(fig, text= lift(X->string(to_latex("Porosity"), " = ", X, to_latex(" (m^3 m^{-3})")), sliders[5].value), justification = :left, halign = :left, fontsize = fontsize, width = Auto(false));
+  texts[6] = Label(fig, text= lift(X->string(to_latex("S_x"), " = ", X, to_latex(" (gC cm^{-3})")), sliders[6].value), justification = :left, halign = :left, fontsize = fontsize, width = Auto(false));
+  texts[7] = Label(fig, text= lift(X->string("Drivers\n", to_latex("T_s"), " = ", X, to_latex(" (°C)")), sliders[7].value), justification = :left, halign = :left, fontsize = fontsize, color = :green, width = Auto(false));
+  texts[8] = Label(fig, text= lift(X->string(to_latex("θ"), " = ", round(X, sigdigits = 3), to_latex(" (m^3 m^{-3})")), sliders[8].value), justification = :left, halign = :left, fontsize = fontsize, color = :green, width = Auto(false));
+  texts[9] = Label(fig, text= lift(X->string(to_latex("Q_{10} of kM_{sx}"), " = ", X, to_latex(" (-)")), sliders[9].value), justification = :left, halign = :left, fontsize = fontsize, width = Auto(false));
 
   αsx = sliders[1].value
   set_close_to!(sliders[1], 7e8)
@@ -52,19 +52,19 @@ function DAMMviz()
   set_close_to!(sliders[6], 0.05)
   Ts = sliders[7].value
   set_close_to!(sliders[7], 28)
-  θ = sliders[8].value 
+  θ = sliders[8].value
   set_close_to!(sliders[8], 0.4)
-  Q10Km = sliders[9].value 
+  Q10Km = sliders[9].value
   set_close_to!(sliders[9], 1.0)
 
   r = 50
   x = collect(range(0, length=r, stop=40)) # T axis, °C from min to max
   y = @lift(collect(range(0, length=r, stop=$porosity))) # M axis, % from min to max
-  X = repeat(1:r, inner=r) # X for DAMM matrix 
+  X = repeat(1:r, inner=r) # X for DAMM matrix
   Y = repeat(1:r, outer=r) # Y for DAMM matrix
-  X2 = repeat(x, inner=r) # T values to fit DAMM on   
+  X2 = repeat(x, inner=r) # T values to fit DAMM on
   Y2 = @lift(repeat($y, outer=r)) # M values to fit DAMM on
-  xy = @lift(hcat(X2, $Y2)) # T and M matrix to create DAMM matrix 
+  xy = @lift(hcat(X2, $Y2)) # T and M matrix to create DAMM matrix
 
   params = @lift(($αsx, $Ea, $kMsx, $kMo2, $porosity, $sx, $Q10Km))
   DAMM_Matrix = @lift(Matrix(sparse(X, Y, DAMM($xy, $params))))
@@ -73,11 +73,11 @@ function DAMMviz()
 
   vertical_sublayout = fig[1, 1] = hgrid!(vgrid!(
   Iterators.flatten(zip(texts[vcat(1:6, 9)], sliders[vcat(1:6, 9)]))...;
-   ),  #width = 200, height = 1000); 
-  #vertical_sublayout2 = fig[1, 2] = 
+   ),  #width = 200, height = 1000);
+  #vertical_sublayout2 = fig[1, 2] =
   vgrid!(
   Iterators.flatten(zip(texts[7:8], sliders[7:8]))...,
-  Label(fig, text = lift(X -> string("\n", to_latex("R_{s} = "), X, to_latex(" (\\mumol m^{-2} s^{-1})")), Rₛᵣ), color = :red, justification = :left, halign = :left, textsize = 30, width = Auto(false))), halign = :left) #width = 200, height = 1000);
+  Label(fig, text = lift(X -> string("\n", to_latex("R_{s} = "), X, to_latex(" (\\mumol m^{-2} s^{-1})")), Rₛᵣ), color = :red, justification = :left, halign = :left, fontsize = fontsize, width = Auto(false))), halign = :left) #width = 200, height = 1000);
 
   s3D = surface!(ax3D, x, y, DAMM_Matrix, colormap = Reverse(:Spectral),
 	transparency = true, alpha = 0.2, shading = false, colorrange = (0, 30))
@@ -87,8 +87,8 @@ function DAMMviz()
   point3D = @lift(Vec3f.($Ts, $θ, $point))
   scatter3D = scatter!(ax3D, point3D, markersize = 8000, color = :black)
   cb = Colorbar(fig[1, 3], colormap = Reverse(:Spectral), limits = (0, 30),
-	   label = to_latex("R_{soil} (\\mumol m^{-2} s^{-1})")); 
-	
+	   label = to_latex("R_{soil} (\\mumol m^{-2} s^{-1})"));
+
   ax2D = Axis(fig[2, 1])
   isoθ = @lift(collect(range($θ, length=length(x), stop=$θ)))
   isoy = @lift(DAMM(hcat(x, $isoθ), $params))
@@ -103,7 +103,7 @@ function DAMMviz()
   allR = collect(range(0, length=r, stop=30.0))
   lines!(ax2D, x, linep, color = (:black, 0.4), linestyle = :dash)
   lines!(ax2D, lineh, x, color = (:black, 0.4), linestyle = :dash)
-	
+
   ax2D2 = Axis(fig[2, 2:3])
   isoT = @lift(collect(range($Ts, length=length(x), stop=$Ts)))
   isox = @lift(DAMM(hcat($isoT, $y), $params))
@@ -122,7 +122,7 @@ function DAMMviz()
   lines!(ax3D, isoT, y, isox, color = isox, linewidth = 8,
 	 colormap = Reverse(:Spectral), colorrange = (0, 30))
   iso40 = repeat([40], r)
-  iso1 = repeat([1], r) 
+  iso1 = repeat([1], r)
   iso0 = repeat([0], r)
   lines!(ax3D, x, iso1, linep,
 	 color = (:black, 0.4), linestyle = :dash, transparency = true)
@@ -179,7 +179,7 @@ function DAMMviz()
   rowsize!(fig.layout, 1, Relative(1/2))
   #resize_to_layout!(fig)
 
-  supertitle = Label(fig[0, :], "Dual Arrhenius and Michaelis-Menten (DAMM) interactive visualisation, v0.1.3", textsize = 40)
+  supertitle = Label(fig[0, :], "Dual Arrhenius and Michaelis-Menten (DAMM) interactive visualisation, v0.1.3", textsize = fontsize*4/3)
 
   cb.alignmode = Mixed(right = 0)
   #set_theme!(figure_padding = 30)
@@ -187,4 +187,3 @@ function DAMMviz()
   fig
   return fig
 end
-
