@@ -8,8 +8,8 @@ Interactive plot of the DAMM model
 julia> DAMMviz()
 ```
 """
-function DAMMviz(;width = 2200, height = 1600)
-  fontsize_theme = Theme(fontsize = 30, font = "JuliaMono")
+function DAMMviz(;width = 2200, height = 1600, fontsize = 30)
+  fontsize_theme = Theme(fontsize = 30, fontsize = "JuliaMono")
   set_theme!(fontsize_theme)
 
   fig = Figure(resolution = (width, height), figure_padding = 30)
