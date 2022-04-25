@@ -43,8 +43,13 @@ require simple synthax, and modelers require speed. `DAMMmodel` may be directly 
 from Earth System Models as a module, and by empiricists to parameterize the model to
 their data and visualize the results. It may also be used for teaching. 
 
+# Figures
+
+![Caption for example figure.\label{fig:example}](Figure.png)
+
 # Acknowledgements
 
-We acknowledge .
+We acknowledge the support of Roser Matamala, Pamela Weisenhorn and Rao Kotamarthi for
+this project.
 
 # References
