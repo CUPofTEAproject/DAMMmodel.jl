@@ -30,5 +30,5 @@ using GLMakie
   @testset "qbins()" begin
     df = DAMMfdata(10)
     @test typeof(qbins(df.Tₛ, df.θ, df.Rₛ, 2)) == Tuple{Vector{Float64}, Vector{Float64}, Vector{Float64}}
-    end
+  end
 end
