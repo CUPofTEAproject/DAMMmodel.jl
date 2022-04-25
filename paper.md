@@ -42,10 +42,9 @@ the DAMM model. The Julia programming language is particularly adequate, as empi
 require simple synthax, and modelers require speed. `DAMMmodel` may be directly used
 from Earth System Models as a module, and by empiricists to parameterize the model to
 their data and visualize the results. It may also be used for teaching. 
+\autoref{fig:example}
 
-# Figures
-
-![Caption for example figure.\label{fig:example}](Figure.png)
+![Interactive visualisation of the DAMM model.\label{fig:example}](Figure.png)
 
 # Acknowledgements
 
