@@ -38,10 +38,10 @@ to better understand respiration.
 # Statement of need
 
 `DAMMmodel` is a Julia package providing functions to use, parameterize, and visualize
-the DAMM model. The Julia programming language is particularly adequate, as empiricists
-require simple synthax, and modelers require speed. `DAMMmodel` may be directly used
-from Earth System Models as a module, and by empiricists to parameterize the model to
-their data and visualize the results. It may also be used for teaching. 
+the DAMM model, using the Makie.jl package [@DanischKrumbiegel2021]. The Julia programming language
+is particularly adequate, as empiricists require simple synthax, and modelers require speed.
+`DAMMmodel` may be directly used from Earth System Models as a module, and by empiricists 
+to parameterize the model to their data and visualize the results. It may also be used for teaching. 
 \autoref{fig:example}
 
 ![Interactive visualisation of the DAMM model.\label{fig:example}](Figure.png)
@@ -49,6 +49,6 @@ their data and visualize the results. It may also be used for teaching.
 # Acknowledgements
 
 We acknowledge the support of Roser Matamala, Pamela Weisenhorn and Rao Kotamarthi for
-this project.
+this project, as well as the help from the Makie.jl community.
 
 # References
