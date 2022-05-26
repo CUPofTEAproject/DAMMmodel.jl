@@ -24,7 +24,7 @@ julia> out = DAMMmat(Tₛ, θ, Rₛ, r, n)
 ```
 """
 function DAMMmat(Tₛ::Array{Float64, 1}, θ::Array{Float64, 1}, Rₛ::Array{Float64, 1}, r::Int64)   
-  poro_val = maximum(θ)
+  poro_val = maximum(θ) + 0.2 # will sometime fail to fit if equal maximum(θ)
   params = DAMMfit(hcat(Tₛ, θ), Rₛ, poro_val)  
 # create x y arrays, and z matrix, to plot DAMM surface
   x = collect(range(minimum(Tₛ), length=r, stop=maximum(Tₛ))) # T axis, °C from min to max
@@ -40,7 +40,7 @@ end
 
 function DAMMmat(Tₛ::Array{Float64, 1}, θ::Array{Float64, 1}, Rₛ::Array{Float64, 1}, r::Int64, n::Int64)   
   Tmed, θmed, Rmed = qbins(Tₛ, θ, Rₛ, n)
-  poro_val = maximum(θ)
+  poro_val = maximum(θ) + 0.2 # will sometime fail to fit if equal maximum(θ)
   params = DAMMfit(hcat(Tmed, θmed), Rmed, poro_val)  
 # create x y arrays, and z matrix, to plot DAMM surface
   x = collect(range(minimum(Tmed), length=r, stop=maximum(Tmed))) # T axis, °C from min to max
