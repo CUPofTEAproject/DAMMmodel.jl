@@ -85,7 +85,7 @@ function DAMMviz(;width = 2200, height = 1600, fontsize = 30)
 	transparency = true, color = (:black, 0.1));
   point = @lift(DAMM(hcat($Ts, $θ), $params))
   point3D = @lift(Vec3f.($Ts, $θ, $point))
-  scatter3D = scatter!(ax3D, point3D, markersize = 8000, color = :black)
+  scatter3D = scatter!(ax3D, point3D, markersize = 20, color = :black)
   cb = Colorbar(fig[1, 3], colormap = Reverse(:Spectral), limits = (0, 30),
 	   label = to_latex("R_{soil} (\\mumol m^{-2} s^{-1})"));
 
@@ -150,8 +150,8 @@ function DAMMviz(;width = 2200, height = 1600, fontsize = 30)
 
   point3D_T = @lift(Vec3f.($Ts, 1.0, $point))
   point3D_θ = @lift(Vec3f.(40.0, $θ, $point))
-  scatter3D_T = scatter!(ax3D, point3D_T, markersize = 8000, color = :black)
-  scatter3D_θ = scatter!(ax3D, point3D_θ, markersize = 8000, color = :black)
+  scatter3D_T = scatter!(ax3D, point3D_T, markersize = 20, color = :black)
+  scatter3D_θ = scatter!(ax3D, point3D_θ, markersize = 20, color = :black)
 
   ylims!(ax2D, 0.0, 30.0); xlims!(ax2D, 10.0, 40.0);
   ylims!(ax2D2, 0.0, 30.0); xlims!(ax2D2, 0.0, 1.0);
