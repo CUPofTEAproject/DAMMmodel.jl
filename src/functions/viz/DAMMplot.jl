@@ -20,7 +20,7 @@ function DAMMplot(Tₛ::Array{Float64, 1}, θ::Array{Float64, 1}, Rₛ::Array{Fl
   ax3D.ylabel = to_latex("\\theta (m^3 m^{-3})");
   ax3D.zlabel = to_latex("R_{soil} (\\mumol m^{-2} s^{-1})");
   data3D = Vec3f.(Tₛ, θ, Rₛ)
-  p3D = scatter!(ax3D, data3D, markersize = 2500, strokewidth = 3,
+  p3D = scatter!(ax3D, data3D, markersize = 20, strokewidth = 3,
 	color = Rₛ, colormap = Reverse(:Spectral))
   s3D = surface!(ax3D, out.x, out.y, out.DAMM_Matrix, colormap = Reverse(:Spectral),
 	transparency = true, alpha = 0.1, shading = false)
